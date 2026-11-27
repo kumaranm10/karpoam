@@ -6,7 +6,7 @@
  */
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
-import { buildPrompt, commentBody, MARKER, MAX_ROUNDS, parseVerdict, pickModel, SCHEMA } from './review.mjs';
+import { buildPrompt, commentBody, MARKER, MAX_ROUNDS, parseVerdict, pickModels, retryable, SCHEMA } from './review.mjs';
 
 const { GEMINI_API_KEY, PR, SHA, GITHUB_REPOSITORY: REPO } = process.env;
 const gh = (...args) => execFileSync('gh', args, { encoding: 'utf8', maxBuffer: 50 * 1024 * 1024 });
@@ -29,8 +29,32 @@ async function gemini(path, init = {}) {
     ...init,
     headers: { 'content-type': 'application/json', 'x-goog-api-key': GEMINI_API_KEY, ...(init.headers ?? {}) },
   });
-  if (!res.ok) throw new Error(`Gemini API ${res.status}: ${(await res.text()).slice(0, 300)}`);
+  if (!res.ok) {
+    const err = new Error(`Gemini API ${res.status}: ${(await res.text()).slice(0, 300)}`);
+    err.status = res.status;
+    throw err;
+  }
   return res.json();
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/** Try each model up to 3 times (waits 10 s, 30 s); move to the next model when one stays busy. */
+async function generate(models, body) {
+  let last;
+  for (const model of models.slice(0, 4)) {
+    for (const wait of [0, 10_000, 30_000]) {
+      if (wait) await sleep(wait);
+      try {
+        return { model, out: await gemini(`models/${model}:generateContent`, { method: 'POST', body }) };
+      } catch (e) {
+        last = e;
+        console.log(`${model}: ${e.message.split('\n')[0]}`);
+        if (!retryable(e.status)) throw e;
+      }
+    }
+  }
+  throw last;
 }
 
 async function main() {
@@ -42,14 +66,12 @@ async function main() {
   const rules =
     readFileSync('AGENTS.md', 'utf8') + (files.some((f) => f.startsWith('src/lessons/')) ? `\n\n${readFileSync('docs/LESSON_GUIDE.md', 'utf8')}` : '');
 
-  const model = pickModel((await gemini('models?pageSize=200')).models ?? []);
-  const out = await gemini(`models/${model}:generateContent`, {
-    method: 'POST',
-    body: JSON.stringify({
-      contents: [{ role: 'user', parts: [{ text: buildPrompt({ rules, title: pr.title, body: pr.body, files, diff }) }] }],
-      generationConfig: { responseMimeType: 'application/json', responseSchema: SCHEMA, temperature: 0.1 },
-    }),
+  const models = pickModels((await gemini('models?pageSize=200')).models ?? []);
+  const body = JSON.stringify({
+    contents: [{ role: 'user', parts: [{ text: buildPrompt({ rules, title: pr.title, body: pr.body, files, diff }) }] }],
+    generationConfig: { responseMimeType: 'application/json', responseSchema: SCHEMA, temperature: 0.1 },
   });
+  const { model, out } = await generate(models, body);
   const text = out.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('') ?? '';
   const result = parseVerdict(text);
 

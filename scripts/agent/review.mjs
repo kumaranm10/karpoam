@@ -30,15 +30,23 @@ export const SCHEMA = {
   required: ['verdict', 'summary', 'problems'],
 };
 
-/** Pick the newest stable "flash" model that supports generateContent (free tier allows Flash models). */
-export function pickModel(models) {
-  const ok = models
-    .filter((m) => (m.supportedGenerationMethods ?? []).includes('generateContent'))
-    .map((m) => m.name.replace(/^models\//, ''))
-    .filter((n) => /^gemini-\d+(\.\d+)?-flash$/.test(n));
-  ok.sort((a, b) => Number.parseFloat(b.split('-')[1]) - Number.parseFloat(a.split('-')[1]));
-  return ok[0] ?? 'gemini-2.5-flash';
+/**
+ * Models to try, best first: stable "flash" models (free tier), newest first, then "flash-lite" as fallback.
+ * Several are returned because a model can be busy (HTTP 503) for a while.
+ */
+export function pickModels(models) {
+  const names = models.filter((m) => (m.supportedGenerationMethods ?? []).includes('generateContent')).map((m) => m.name.replace(/^models\//, ''));
+  const ver = (n) => Number.parseFloat(n.split('-')[1]);
+  const byNewest = (a, b) => ver(b) - ver(a);
+  const flash = names.filter((n) => /^gemini-\d+(\.\d+)?-flash$/.test(n)).sort(byNewest);
+  const lite = names.filter((n) => /^gemini-\d+(\.\d+)?-flash-lite$/.test(n)).sort(byNewest);
+  const list = [...flash, ...lite];
+  return list.length ? list : ['gemini-2.5-flash'];
 }
+export const pickModel = (models) => pickModels(models)[0];
+
+/** Whether an API failure is worth retrying (busy, rate-limited or a passing server error). */
+export const retryable = (status) => status === 429 || status === 500 || status === 503 || status === 504;
 
 export function buildPrompt({ rules, title, body, files, diff }) {
   const gate = files.filter(isGateFile);
