@@ -21,7 +21,7 @@ Goal is **not income**: at most one small child-safe ad per page, only to pay th
 | Lesson logic | Small vanilla TS "widgets" in `src/widgets/`, loaded only on pages that use them |
 | Voice | Browser speech (`src/lib/voice.ts`); Tamil uses recorded MP3s in `public/audio/ta/` when given |
 | Fonts | Self-hosted via @fontsource: Fredoka (display), Atkinson Hyperlegible (body), Noto Sans Tamil |
-| Hosting | Cloudflare Pages, build `npm run build`, output `dist`, Node 22.23+ |
+| Hosting | Cloudflare Workers static assets (`wrangler.jsonc`), build `npm run build`, deploy `npx wrangler deploy`, Node 22.23+ |
 
 Commands: `npm install` · `npm run dev` (http://localhost:4321) · `npm run check` (lesson gate) · `npm run build` (gate + build).
 

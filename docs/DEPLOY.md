@@ -4,19 +4,19 @@
 | Item | Cost per year |
 |---|---|
 | Domain (.com) | about SGD 15–20 |
-| Cloudflare Pages hosting | free |
+| Cloudflare Workers static hosting | free |
 | Fonts, voice, analytics | free (self-hosted fonts, browser voice, Cloudflare Web Analytics) |
 | **Total** | **about SGD 15–20** |
 
-## 1. Cloudflare Pages (free)
-1. Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git → pick this repo.
-2. Framework preset: Astro. Build command `npm run build`. Output directory `dist`.
-3. Environment variable: `NODE_VERSION` = `22.23.5` (Astro 7 needs Node 22.23.4 or newer).
-4. Every push to `main` deploys. Every PR gets its own preview link, which is handy for testing with your child before merging.
+## 1. Cloudflare Workers (free, static assets)
+1. Cloudflare dashboard → Workers & Pages → Create application → Import a repository → `karpoam`.
+2. Project name `karpoam` (must match `name` in `wrangler.jsonc`). Build command `npm run build`. Deploy command `npx wrangler deploy`.
+3. Node version comes from `.nvmrc` (Astro 7 needs Node 22.23.4 or newer). If the build uses an older Node, add variable `NODE_VERSION` = `22.23.5` under Settings → Build.
+4. Every push to `main` deploys. `wrangler.jsonc` tells Cloudflare to publish `./dist` as plain files.
 
 ## 2. Domain
 1. Buy the domain (Cloudflare Registrar sells at cost).
-2. Pages project → Custom domains → add it.
+2. Worker → Settings → Domains & Routes → add custom domain.
 3. Put the full address in `src/site.json` → `url` (e.g. `https://karpoam.com`). It is used for canonical links and the sitemap.
 
 ## 3. Google Search Console
