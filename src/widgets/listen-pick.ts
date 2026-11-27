@@ -49,7 +49,8 @@ const mount: Mount = (root, p, ctx) => {
   const n = Math.max(2, Math.min(Number(p.choices) || 4, 4, items.length));
   const askText = String(p.ask ?? 'Listen. Tap the one you hear.');
   const quizText = String(p.quiz ?? 'Which one did you hear?');
-  const plain = (html: string) => html.replace(/<[^>]+>/g, '');
+  /** Caption → text for the voice (never put back into HTML). Drops tags, then any stray < or >. */
+  const plain = (html: string) => html.replace(/<[^>]*>/g, '').replace(/[<>]/g, '');
   /** Play the item's own word (its MP3 first, else the voice). */
   const hear = (it: LpItem) => speak(it.say ?? it.name, { lang, audio: it.audio });
   const pic = (it: LpItem) => `<span class="lp-icon" aria-hidden="true">${it.icon}</span>`;
