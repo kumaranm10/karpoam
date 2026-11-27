@@ -1,0 +1,53 @@
+# Auto-merge bot. Turns on GitHub auto-merge for PRs from this repo's own branches.
+# GitHub then merges only when every required check in the `protect-main` ruleset is green.
+#
+# Extra rules before auto-merge is switched on:
+#   - label `hold` or `needs-kumaran`      -> never auto-merge
+#   - label `type:lesson`                  -> also needs label `content-approved` (Kumaran's review)
+#   - PR changes a gate file (list below)  -> also needs label `gate-approved`
+#       (given by Kumaran now; from milestone M3 by the other agent family's review)
+#   - Dependabot PRs that only touch package.json / package-lock.json count as normal code
+#   - repo variable AGENTS_ENABLED = false -> bot does nothing (kill switch)
+name: Auto-merge
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review, labeled, unlabeled]
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: automerge-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  decide:
+    name: Auto-merge decision
+    if: github.event.pull_request.head.repo.full_name == github.repository && !github.event.pull_request.draft && vars.AGENTS_ENABLED != 'false'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PR: ${{ github.event.pull_request.number }}
+      AUTHOR: ${{ github.event.pull_request.user.login }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Decide and apply
+        run: |
+          set -euo pipefail
+          files=$(gh pr diff "$PR" --name-only)
+          labels=",$(gh pr view "$PR" --json labels --jq '[.labels[].name] | join(",")'),"
+          gate='^(\.github/|scripts/|wrangler\.jsonc$|biome\.json$|lighthouserc\.json$|vitest\.config\.ts$|playwright\.config\.ts$|tsconfig\.json$|astro\.config\.mjs$|package\.json$|package-lock\.json$|AGENTS\.md$|CLAUDE\.md$|src/site\.json$|src/components/AdSlot\.astro$)'
+          gate_files=$(echo "$files" | grep -E "$gate" || true)
+          if [ "$AUTHOR" = "dependabot[bot]" ]; then
+            gate_files=$(echo "$gate_files" | grep -vE '^(package\.json|package-lock\.json)$' || true)
+          fi
+          reason=""
+          case "$labels" in *,hold,*|*,needs-kumaran,*) reason="has a hold label";; esac
+          if [ -z "$reason" ] && [[ "$labels" == *",type:lesson,"* ]] && [[ "$labels" != *",content-approved,"* ]]; then reason="lesson/text change waiting for Kumaran's content-approved label"; fi
+          if [ -z "$reason" ] && [ -n "$gate_files" ] && [[ "$labels" != *",gate-approved,"* ]]; then reason="changes gate files and needs the gate-approved label: $(echo $gate_files | tr '\n' ' ')"; fi
+          if [ -n "$reason" ]; then
+            echo "Auto-merge OFF: $reason" | tee -a "$GITHUB_STEP_SUMMARY"
+            gh pr merge "$PR" --disable-auto >/dev/null 2>&1 || true
+            exit 0
+          fi
+          echo "Auto-merge ON: GitHub merges when all required checks pass." | tee -a "$GITHUB_STEP_SUMMARY"
+          gh pr merge "$PR" --auto --squash

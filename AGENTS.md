@@ -76,11 +76,14 @@ Flow for every task:
 3. Before pushing: `npm run build` passes and each changed page is checked at 390px width.
 4. Open a PR using the template, with `Closes #<issue>`. Label `type:lesson` for lesson/text changes, `type:code` otherwise.
 5. The other agent family reviews (Claude ↔ Google). Max 3 review rounds; then label `needs-kumaran`.
-6. Merge: `type:code` auto-merges when all checks and the review pass. `type:lesson` also needs Kumaran's `content-approved` label.
+6. Merge: the **Auto-merge** workflow (`.github/workflows/automerge.yml`) turns on GitHub auto-merge, and GitHub merges when all required checks pass. Nobody presses merge, and agents must not merge or bypass rules themselves. Extra rules:
+   - `type:lesson` PRs also need Kumaran's `content-approved` label.
+   - PRs that change **gate files** (`.github/`, `scripts/`, tool configs, `package.json`, `AGENTS.md`, `CLAUDE.md`, `src/site.json`, `AdSlot.astro`) also need `gate-approved` — from the other agent family's review once M3 is live, from Kumaran until then.
+   - `hold` or `needs-kumaran` stops auto-merge.
 7. If a check fails twice after your fixes, stop, label `needs-kumaran`, and explain in a comment.
 8. If the repo variable `AGENTS_ENABLED` is `false`, do nothing.
 
-Never change files listed in `.github/CODEOWNERS` without asking Kumaran in the PR. Do not edit files owned by another open PR. Do not reformat files you did not need to touch.
+Never weaken a gate (checks, thresholds, budgets, rules) to make your PR pass. Do not edit files owned by another open PR. Do not reformat files you did not need to touch.
 
 ## Code rules
 
