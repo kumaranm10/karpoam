@@ -15,15 +15,23 @@ async function noSideScroll(page: Page) {
   const { sw, cw } = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
   expect(sw, 'page scrolls sideways').toBeLessThanOrEqual(cw + 1);
 }
-/** Tamil script is only for Tamil pages and the logo (Kumaran, 27 Nov). Decorative aria-hidden icons are pictures, not text. */
+/**
+ * Tamil script is only for Tamil pages and the logo (Kumaran, 27 Nov).
+ * Allowed elsewhere: the header logo (.brand) and the Tamil subject's own icon (அ) in its links.
+ * Checks visible text, <title>, meta tags and text-bearing attributes (alt, aria-label, title, placeholder).
+ */
 async function tamilOnlyWhereAllowed(page: Page, url: string) {
   if (url.startsWith('/tamil/')) return;
-  const text = await page.evaluate(() => {
-    const body = document.body.cloneNode(true) as HTMLElement;
-    for (const el of body.querySelectorAll('.brand, [aria-hidden="true"]')) el.remove();
-    return body.textContent ?? '';
+  const found = await page.evaluate(() => {
+    const ta = /[\u0B80-\u0BFF]+/g;
+    const doc = document.documentElement.cloneNode(true) as HTMLElement;
+    for (const el of doc.querySelectorAll('.brand, [data-subject="tamil"] [aria-hidden="true"]')) el.remove();
+    const parts = [doc.querySelector('body')?.textContent ?? '', document.title];
+    for (const el of doc.querySelectorAll('meta[content]')) parts.push(el.getAttribute('content') ?? '');
+    for (const a of ['alt', 'aria-label', 'title', 'placeholder']) for (const el of doc.querySelectorAll(`[${a}]`)) parts.push(el.getAttribute(a) ?? '');
+    return parts.join(' ').match(ta) ?? [];
   });
-  expect(text.match(/[\u0B80-\u0BFF]+/g) ?? [], `Tamil text on ${url}`).toEqual([]);
+  expect(found, `Tamil text on ${url}`).toEqual([]);
 }
 async function noSeriousA11yIssues(page: Page) {
   // axe ships its own playwright-core types; the runtime object is the same page.
@@ -89,6 +97,7 @@ test('unknown pages show the friendly 404', async ({ page }) => {
   const res = await page.goto('/no-such-page/');
   expect(res?.status()).toBe(404);
   await expect(page.locator('h1')).toContainText('Oops');
+  await tamilOnlyWhereAllowed(page, '/no-such-page/');
 });
 
 test('no ad markup while ads are switched off', async ({ page }) => {
