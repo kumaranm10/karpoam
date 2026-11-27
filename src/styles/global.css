@@ -34,6 +34,12 @@
   --wood-edge: #b47d33;
   --band: #2554c4;
   --shadow: 0 10px 30px rgba(31, 36, 64, 0.1);
+  /* home page section bands (design: Gemini proposal on #27) */
+  --sec-hero-bg: #fff6e4;
+  --sec-subjects-bg: #eaf1ff;
+  --sec-lessons-bg: #e8f5ec;
+  --sec-how-bg: #fdeee4;
+  --sec-foot-bg: #ece7dc;
   --display: "Fredoka", "Noto Sans Tamil", "Trebuchet MS", system-ui, sans-serif;
   --body: "Atkinson Hyperlegible", "Noto Sans Tamil", "Segoe UI", system-ui, sans-serif;
   --tamilfont: "Noto Sans Tamil", "Latha", "Tamil Sangam MN", sans-serif;
@@ -46,6 +52,16 @@
   :root:not([data-theme="light"]) {
     --page: #14161f;
     --paper: #1c2030;
+    --sec-hero-bg: #1e1c17;
+    --sec-subjects-bg: #151c2e;
+    --sec-lessons-bg: #13231b;
+    --sec-how-bg: #271d16;
+    --sec-foot-bg: #0f1117;
+    --sec-hero-bg: #1e1c17;
+    --sec-subjects-bg: #151c2e;
+    --sec-lessons-bg: #13231b;
+    --sec-how-bg: #271d16;
+    --sec-foot-bg: #0f1117;
     --card: #232838;
     --line: #353b52;
     --grid: rgba(130, 160, 255, 0.06);

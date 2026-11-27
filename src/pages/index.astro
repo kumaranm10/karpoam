@@ -7,8 +7,8 @@ const lessons = readyLessons();
 const count = (id: string) => lessons.filter((l) => l.subject === id).length;
 ---
 <Base title={SITE.name}>
-  <div class="wrap">
-    <section class="hero">
+  <section class="band band-hero">
+    <div class="wrap hero">
       <div class="hero-copy">
         <span class="eyebrow">Free · Ages 5–8 · K2 to P2</span>
         <h1>Learn by <span class="hl">seeing, tapping</span> and doing.</h1>
@@ -26,9 +26,11 @@ const count = (id: string) => lessons.filter((l) => l.subject === id).length;
         <div class="demo-times" aria-hidden="true"><span class="g">3</span> × <span class="o">4</span> = 12</div>
         <p class="muted">3 plates of 4 cookies</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section" aria-labelledby="subj-h">
+  <section class="band band-subjects" aria-labelledby="subj-h">
+    <div class="wrap section">
       <h2 id="subj-h">Pick a subject</h2>
       <div class="subjects">
         {SUBJECTS.map((s) => (
@@ -40,14 +42,18 @@ const count = (id: string) => lessons.filter((l) => l.subject === id).length;
           </a>
         ))}
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section" aria-labelledby="new-h">
+  <section class="band band-lessons" aria-labelledby="new-h">
+    <div class="wrap section">
       <h2 id="new-h">Lessons to try</h2>
       <div class="lgrid">{lessons.map((l) => <LessonCard lesson={l} showSubject />)}</div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section" aria-labelledby="how-h">
+  <section class="band band-how" aria-labelledby="how-h">
+    <div class="wrap section">
       <h2 id="how-h">Every lesson has 4 parts</h2>
       <ol class="how">
         <li><span class="hn">Part 1</span><span class="hi" aria-hidden="true">👀</span><span class="ht">See</span><span class="muted">A tiny story with real things, one sentence per screen.</span></li>
@@ -55,7 +61,7 @@ const count = (id: string) => lessons.filter((l) => l.subject === id).length;
         <li><span class="hn">Part 3</span><span class="hi" aria-hidden="true">✅</span><span class="ht">Check</span><span class="muted">A picture quiz that explains every answer.</span></li>
         <li><span class="hn">Part 4</span><span class="hi" aria-hidden="true">🏠</span><span class="ht">At home</span><span class="muted">Questions for parents to ask about real things.</span></li>
       </ol>
-    </section>
-  </div>
+    </div>
+  </section>
   <AdSlot />
 </Base>

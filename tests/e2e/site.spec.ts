@@ -104,3 +104,19 @@ test('no ad markup while ads are switched off', async ({ page }) => {
   await page.goto(lessonUrls[0]);
   await expect(page.locator('ins.adsbygoogle')).toHaveCount(0);
 });
+
+for (const reducedMotion of ['reduce', 'no-preference'] as const) {
+  test(`home hero cookies match the sums (motion: ${reducedMotion})`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion });
+    await page.goto('/');
+    const plates = page.locator('.demo-plate');
+    await expect(plates).toHaveCount(3);
+    const perPlate = await plates.evaluateAll((els) => els.map((e) => [...(e.textContent ?? '')].filter((c) => c === '🍪').length));
+    expect(perPlate).toEqual([4, 4, 4]);
+    await expect(page.locator('.demo-eq')).toHaveText(/4\s*\+\s*4\s*\+\s*4\s*=\s*12/);
+    await expect(page.locator('.demo-times')).toHaveText(/3\s*×\s*4\s*=\s*12/);
+    // After the motion (≤ 2.3 s) everything rests fully visible.
+    await expect(page.locator('.demo-times')).toHaveCSS('opacity', '1', { timeout: 4000 });
+    await expect(plates.nth(2)).toHaveCSS('opacity', '1');
+  });
+}
