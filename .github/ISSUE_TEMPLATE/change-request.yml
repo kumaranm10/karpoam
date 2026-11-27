@@ -1,0 +1,13 @@
+name: Change request
+description: Something to change on a lesson or page
+title: "Change: "
+labels: ["type:change", "status:triage"]
+body:
+  - type: input
+    id: page
+    attributes: { label: Page link, placeholder: "https://…/maths/p1/tens-and-ones/" }
+    validations: { required: true }
+  - type: textarea
+    id: change
+    attributes: { label: What should change?, placeholder: "e.g. The first step is too fast. My son did not understand 'bundle'." }
+    validations: { required: true }

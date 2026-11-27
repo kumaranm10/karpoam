@@ -40,15 +40,26 @@ docs/LESSON_GUIDE.md   how to write a lesson JSON (read before adding one)
 TASKS.md               the shared task board
 ```
 
-## How we work together (Claude + Gemini/Antigravity + Kumaran)
-1. Pick a `[ ]` task in `TASKS.md` that is assigned to you (or `anyone`). Change it to `[~] owner: <claude|gemini>` in your first commit.
-2. Work on a branch: `claude/<task-id>-<slug>` or `gemini/<task-id>-<slug>`. One task per branch, small PRs.
-3. Before you push: `npm run build` must pass, and you must open each changed page at 390px width (phone) and check there is no sideways scroll.
-4. Open a PR to `main` titled `<task-id>: <what>`. In the PR body list: what changed, how you checked counts/facts, screenshots if possible.
-5. The other agent reviews (Claude reviews Gemini's PRs and the other way round). Kumaran tests with his son and merges.
-6. Mark the task `[x]` in the same PR. If blocked, mark `[?]` and write the question under the task.
+## How we work together
+Agents (see the ops repo `karpom-ops` for roadmap, status and decisions):
 
-Do not edit files owned by another open task. Do not reformat files you did not need to touch.
+| Agent | Runs on | Label it picks up | Main jobs |
+|---|---|---|---|
+| Claude | GitHub Actions (cloud) | `agent:claude` | code, widgets, tests, planning, reviews Google agents' PRs |
+| Gemini (cloud lane) | GitHub Actions (cloud) | `agent:gemini` | PR reviews, issue triage, small text fixes |
+| Antigravity (`agy`) | Kumaran's computer (self-hosted runner, Docker) | `agent:antigravity` | lessons, Tamil content, bigger tasks, reviews Claude's PRs |
+
+Flow for every task:
+1. Tasks are GitHub issues (until milestone M3, `TASKS.md`). Only issues labelled `status:ready` and `agent:<you>` are yours.
+2. Branch: `<agent>/<issue-number>-<slug>`. One task per branch, small PRs. Max 2 open PRs per agent.
+3. Before pushing: `npm run build` passes and each changed page is checked at 390px width.
+4. Open a PR using the template, with `Closes #<issue>`. Label `type:lesson` for lesson/text changes, `type:code` otherwise.
+5. The other agent family reviews (Claude ↔ Google). Max 3 review rounds; then label `needs-kumaran`.
+6. Merge: `type:code` auto-merges when all checks and the review pass. `type:lesson` also needs Kumaran's `content-approved` label.
+7. If a check fails twice after your fixes, stop, label `needs-kumaran`, and explain in a comment.
+8. If the repo variable `AGENTS_ENABLED` is `false`, do nothing.
+
+Never change files listed in `.github/CODEOWNERS` without asking Kumaran in the PR. Do not edit files owned by another open PR. Do not reformat files you did not need to touch.
 
 ## Code rules
 - TypeScript, no `any` in new lib code (widgets may read `params` as `Record<string, any>`).

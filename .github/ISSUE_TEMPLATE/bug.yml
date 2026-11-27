@@ -1,0 +1,13 @@
+name: Something is broken
+description: A page or button does not work
+title: "Bug: "
+labels: ["type:bug", "status:triage"]
+body:
+  - type: input
+    id: page
+    attributes: { label: Page link }
+    validations: { required: true }
+  - type: textarea
+    id: what
+    attributes: { label: What happened?, placeholder: "What you tapped, what you expected, what you saw. Phone or computer?" }
+    validations: { required: true }

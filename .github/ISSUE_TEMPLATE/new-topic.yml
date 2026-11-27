@@ -1,0 +1,20 @@
+name: New topic
+description: Ask the agents for a new lesson
+title: "Lesson: "
+labels: ["type:lesson", "status:triage"]
+body:
+  - type: dropdown
+    id: subject
+    attributes: { label: Subject, options: [Maths, English, Science, Tamil, Other] }
+    validations: { required: true }
+  - type: dropdown
+    id: level
+    attributes: { label: Level, options: [K2, P1, P2, P3, Not sure] }
+    validations: { required: true }
+  - type: textarea
+    id: idea
+    attributes: { label: What should the child learn?, placeholder: "e.g. Number bonds to 10, like the school worksheet" }
+    validations: { required: true }
+  - type: textarea
+    id: reallife
+    attributes: { label: Real-life examples you like (optional), placeholder: "e.g. sweets in two hands, shoes" }

@@ -1,0 +1,7 @@
+# Agents may not change their own gates. Anything here needs Kumaran's approval.
+/.github/              @kumaranm10
+/scripts/              @kumaranm10
+/AGENTS.md             @kumaranm10
+/CLAUDE.md             @kumaranm10
+/src/site.json         @kumaranm10
+/src/components/AdSlot.astro  @kumaranm10
