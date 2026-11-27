@@ -38,7 +38,7 @@ Commands: `npm install` · `npm run dev` (http://localhost:4321) · `npm run che
 | Lesson rules + build | `npm run build` | lesson JSON breaks a rule, or the site does not build |
 | Speed budget | `npm run budget` | a page ships > 100 KB JS or > 60 KB CSS, or all JS > 200 KB |
 | Browser + accessibility | `npm run e2e` | any page/lesson errors, scrolls sideways at phone width, fails a See/Check flow, or has a serious axe issue |
-| Security (CI only) | `npm audit --audit-level=high`, gitleaks, dependency review, actionlint, CodeQL | a high/critical vulnerable dependency, a committed secret, a GPL/AGPL dependency, an invalid workflow, or a CodeQL finding |
+| Security (CI only) | `npm audit --audit-level=high`, gitleaks, actionlint, CodeQL | a high/critical vulnerable dependency, a committed secret, an invalid workflow, or a CodeQL finding |
 | Lighthouse (CI only) | `npx @lhci/cli@0.16.1 autorun` | performance < 90, accessibility < 95, best practices < 90, SEO < 90 |
 
 New widget = new unit test file in `tests/unit/` with an "exactly one right answer" test over 200 generated questions (see `groups.test.ts`).

@@ -7,7 +7,7 @@ Karpoam is a static site for children: no accounts, no personal data, no server 
 ## Automatic protection on every change
 | Check | Tool |
 |---|---|
-| Known vulnerable dependencies (high/critical) | `npm audit`, GitHub dependency review |
+| Known vulnerable dependencies (high/critical) | `npm audit` on every PR, Dependabot weekly |
 | Secrets committed by mistake | gitleaks |
 | Code weaknesses | CodeQL (JavaScript/TypeScript and workflows), weekly and on every PR |
 | Broken or unsafe workflow files | actionlint |
