@@ -3,11 +3,13 @@
 Read this whole file before you change anything. Antigravity/Gemini reads it automatically; Claude reads it through CLAUDE.md.
 
 ## What we are building
+
 A free study site for children aged 5–8 in Singapore (K2, P1, P2 first; P3–P6 later).
 Subjects: Maths, English, Science, Tamil (more later). Owner: Kumaran (parent, developer).
 Goal is **not income**: at most one small child-safe ad per page, only to pay the ~SGD 20/year running cost.
 
 ## The five rules that matter most
+
 1. **Pictures and doing, not reading.** One short sentence on screen at a time (aim for ≤ 12 words). Every sentence is read aloud.
 2. **Real life first.** Teach with things a Singapore child knows: cookies on plates, cars, $10 notes and $1 coins, HDB lifts, MRT, hawker food, pets, plants.
 3. **Counts must be exact.** Draw countable things with code (DOM/CSS/emoji repeated N times). Never use AI-generated images or video for anything a child must count. Never write a number that does not match the picture.
@@ -15,17 +17,34 @@ Goal is **not income**: at most one small child-safe ad per page, only to pay th
 5. **Fast and safe.** No new runtime dependencies or external scripts without Kumaran's OK. No personal data, no accounts, no tracking cookies. Ads only via `src/components/AdSlot.astro`, never inside a lesson step.
 
 ## Tech stack
-| Part | Choice |
-|---|---|
-| Framework | Astro 7 (static output), TypeScript, no UI framework |
-| Lesson logic | Small vanilla TS "widgets" in `src/widgets/`, loaded only on pages that use them |
-| Voice | Browser speech (`src/lib/voice.ts`); Tamil uses recorded MP3s in `public/audio/ta/` when given |
-| Fonts | Self-hosted via @fontsource: Fredoka (display), Atkinson Hyperlegible (body), Noto Sans Tamil |
-| Hosting | Cloudflare Workers static assets (`wrangler.jsonc`), build `npm run build`, deploy `npx wrangler deploy`, Node 22.23+ |
+
+| Part         | Choice                                                                                                                |
+| ------------ | --------------------------------------------------------------------------------------------------------------------- |
+| Framework    | Astro 7 (static output), TypeScript, no UI framework                                                                  |
+| Lesson logic | Small vanilla TS "widgets" in `src/widgets/`, loaded only on pages that use them                                      |
+| Voice        | Browser speech (`src/lib/voice.ts`); Tamil uses recorded MP3s in `public/audio/ta/` when given                        |
+| Fonts        | Self-hosted via @fontsource: Fredoka (display), Atkinson Hyperlegible (body), Noto Sans Tamil                         |
+| Hosting      | Cloudflare Workers static assets (`wrangler.jsonc`), build `npm run build`, deploy `npx wrangler deploy`, Node 22.23+ |
 
 Commands: `npm install` · `npm run dev` (http://localhost:4321) · `npm run check` (lesson gate) · `npm run build` (gate + build).
 
+**Before every PR run `npm run verify`.** It runs the same gates as CI:
+
+| Gate | Command | Fails when |
+|---|---|---|
+| Lint + format | `npm run lint` | any Biome error or warning (`npm run format` fixes most) |
+| Types | `npm run typecheck` | any TypeScript/Astro error |
+| Unit tests | `npm run test:coverage` | a test fails, or coverage < 80% lines/statements/functions, < 70% branches |
+| Lesson rules + build | `npm run build` | lesson JSON breaks a rule, or the site does not build |
+| Speed budget | `npm run budget` | a page ships > 100 KB JS or > 60 KB CSS, or all JS > 200 KB |
+| Browser + accessibility | `npm run e2e` | any page/lesson errors, scrolls sideways at phone width, fails a See/Check flow, or has a serious axe issue |
+| Lighthouse (CI only) | `npx @lhci/cli@0.16.1 autorun` | performance < 90, accessibility < 95, best practices < 90, SEO < 90 |
+
+New widget = new unit test file in `tests/unit/` with an "exactly one right answer" test over 200 generated questions (see `groups.test.ts`).
+New lesson = nothing extra; e2e tests read `src/lessons/` and test every lesson automatically.
+
 ## Folder map
+
 ```
 src/site.json          site name, URL, contact email, ad IDs (empty = ads off), analytics token
 src/catalog.json       subjects and levels (set a level "open": true when it has lessons)
@@ -41,15 +60,17 @@ TASKS.md               the shared task board
 ```
 
 ## How we work together
+
 Agents (see the ops repo `karpoam-ops` for roadmap, status and decisions):
 
-| Agent | Runs on | Label it picks up | Main jobs |
-|---|---|---|---|
-| Claude | GitHub Actions (cloud) | `agent:claude` | code, widgets, tests, planning, reviews Google agents' PRs |
-| Gemini (cloud lane) | GitHub Actions (cloud) | `agent:gemini` | PR reviews, issue triage, small text fixes |
+| Agent               | Runs on                                         | Label it picks up   | Main jobs                                                  |
+| ------------------- | ----------------------------------------------- | ------------------- | ---------------------------------------------------------- |
+| Claude              | GitHub Actions (cloud)                          | `agent:claude`      | code, widgets, tests, planning, reviews Google agents' PRs |
+| Gemini (cloud lane) | GitHub Actions (cloud)                          | `agent:gemini`      | PR reviews, issue triage, small text fixes                 |
 | Antigravity (`agy`) | Kumaran's computer (self-hosted runner, Docker) | `agent:antigravity` | lessons, Tamil content, bigger tasks, reviews Claude's PRs |
 
 Flow for every task:
+
 1. Tasks are GitHub issues (until milestone M3, `TASKS.md`). Only issues labelled `status:ready` and `agent:<you>` are yours.
 2. Branch: `<agent>/<issue-number>-<slug>`. One task per branch, small PRs. Max 2 open PRs per agent.
 3. Before pushing: `npm run build` passes and each changed page is checked at 390px width.
@@ -62,6 +83,7 @@ Flow for every task:
 Never change files listed in `.github/CODEOWNERS` without asking Kumaran in the PR. Do not edit files owned by another open PR. Do not reformat files you did not need to touch.
 
 ## Code rules
+
 - TypeScript, no `any` in new lib code (widgets may read `params` as `Record<string, any>`).
 - Widgets: `export default` a `Mount` function. Use `step()`, `storyPlayer()`, `speak()/say()`, `ding()/buzz()/cheer()` from `src/lib`. Look at `sort.ts` (data-driven) and `place-value.ts` (custom drawing) as examples.
 - **Prefix every CSS class in a widget with a short widget prefix** (e.g. `so-`, `pv-`, `gr-`). All widget CSS ends up on the same page, so plain names like `.mini` collide.
@@ -70,12 +92,14 @@ Never change files listed in `.github/CODEOWNERS` without asking Kumaran in the 
 - Every new number or count shown must come from the same variable that drew the picture.
 
 ## Content rules
+
 - English: British spelling (colour, maths), Singapore context, short words. Never shame a wrong answer ("Not quite" + the reason).
 - Tamil: Tamil script only (no Hindi/Devanagari, no Tanglish in Tamil fields). Use common spoken words a child hears at home. Include a recorded MP3 for each Tamil sentence that will be read aloud (`public/audio/ta/<lesson>/<id>.mp3`), because many phones have no Tamil voice.
 - Science: facts must be correct for a curious adult too. When unsure, leave the item out.
 - Maths: follow Singapore primary methods (number bonds, bar models, "groups of" for ×, count on by tens).
 
 ## Ads (only if `src/site.json` ads.client and ads.slot are set)
+
 - Only `AdSlot.astro`, at most one per page, only after the "At home" section or at the page bottom.
 - Keeps ≥ 150px from anything a child taps (the component has a 160px top margin; do not remove it).
 - Child-directed tag stays on (`data-tag-for-age-treatment="1"`). Never use Auto ads, sticky/anchor ads or pop-ups.

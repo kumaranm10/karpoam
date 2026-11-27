@@ -8,6 +8,7 @@ npm install
 npm run dev      # http://localhost:4321
 npm run check    # lesson gate
 npm run build    # gate + static build into dist/
+npm run verify   # every quality gate, same as CI
 ```
 
 - Working on this repo (people or AI agents): read **AGENTS.md** first, then **TASKS.md**.

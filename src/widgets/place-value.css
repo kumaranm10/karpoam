@@ -1,34 +1,194 @@
 /* Place value with ice-cream sticks: a bundle (10 sticks + rubber band) is a ten, a loose stick is a one. */
-.pv { --sw: 6px; --sh: 70px; --sg: 2px; width: 100%; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 14px; align-items: start }
-@media (max-width: 600px) { .pv { --sw: 5px; --sh: 56px; --sg: 1.5px; grid-template-columns: 1fr } }
-.pv-zone { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; padding: 10px; border-radius: 14px; border: 2px dashed var(--line); min-height: 120px }
-.pv-lbl { font-family: var(--display); font-weight: 600; font-size: 17px; color: var(--muted) }
-.pv-lbl b { color: var(--ink) }
-.pv-items { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: flex-end; min-height: var(--sh) }
-.stk { display: block; width: var(--sw); height: var(--sh); border-radius: 3px; background: var(--wood); box-shadow: inset -1px 0 0 var(--wood-edge) }
-.bundle { position: relative; display: flex; gap: var(--sg); padding: 0; border: 0; background: none; font: inherit }
-.bundle .band { position: absolute; left: -3px; right: -3px; top: 40%; height: 9px; border-radius: 4px; background: var(--band) }
-button.bundle { cursor: pointer; border-radius: 6px }
-button.bundle:hover .band, button.bundle:focus-visible .band { background: var(--one) }
-.five { display: flex; gap: 3px }
-.pv .new { animation: dropin .5s cubic-bezier(.3, 1.5, .5, 1) both }
-.pv .shake { animation: shake .45s }
-@keyframes shake { 0%, 100% { transform: none } 25% { transform: rotate(-6deg) } 75% { transform: rotate(6deg) } }
-.pv-sum { display: flex; flex-direction: column; align-items: center; gap: 6px }
-.pv-eq { font-family: var(--display); font-weight: 600; font-size: clamp(22px, 4.6vw, 32px); font-variant-numeric: tabular-nums; text-align: center }
-.pv-big .t, .pv-eq .t { color: var(--band) }
-.pv-big .o, .pv-eq .o { color: var(--one-text) }
-.pv-big.glow { animation: pop .6s cubic-bezier(.3, 1.6, .5, 1) }
+.pv {
+  --sw: 6px;
+  --sh: 70px;
+  --sg: 2px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 14px;
+  align-items: start;
+}
+@media (max-width: 600px) {
+  .pv {
+    --sw: 5px;
+    --sh: 56px;
+    --sg: 1.5px;
+    grid-template-columns: 1fr;
+  }
+}
+.pv-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px;
+  border-radius: 14px;
+  border: 2px dashed var(--line);
+  min-height: 120px;
+}
+.pv-lbl {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--muted);
+}
+.pv-lbl b {
+  color: var(--ink);
+}
+.pv-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: flex-end;
+  min-height: var(--sh);
+}
+.stk {
+  display: block;
+  width: var(--sw);
+  height: var(--sh);
+  border-radius: 3px;
+  background: var(--wood);
+  box-shadow: inset -1px 0 0 var(--wood-edge);
+}
+.bundle {
+  position: relative;
+  display: flex;
+  gap: var(--sg);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+}
+.bundle .band {
+  position: absolute;
+  left: -3px;
+  right: -3px;
+  top: 40%;
+  height: 9px;
+  border-radius: 4px;
+  background: var(--band);
+}
+button.bundle {
+  cursor: pointer;
+  border-radius: 6px;
+}
+button.bundle:hover .band,
+button.bundle:focus-visible .band {
+  background: var(--one);
+}
+.five {
+  display: flex;
+  gap: 3px;
+}
+.pv .new {
+  animation: dropin 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+.pv .shake {
+  animation: shake 0.45s;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: none;
+  }
+  25% {
+    transform: rotate(-6deg);
+  }
+  75% {
+    transform: rotate(6deg);
+  }
+}
+.pv-sum {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.pv-eq {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(22px, 4.6vw, 32px);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.pv-big .t,
+.pv-eq .t {
+  color: var(--band);
+}
+.pv-big .o,
+.pv-eq .o {
+  color: var(--one-text);
+}
+.pv-big.glow {
+  animation: pop 0.6s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
 
 /* small versions for quiz answers */
-.pv.pv-mini { --sw: 3px; --sh: 34px; --sg: 1px; display: flex; gap: 8px; align-items: flex-end }
-.pv.pv-mini .pv-zone { border: 0; padding: 0; min-height: 0 }
-.pv.pv-mini .pv-items { gap: 5px; min-height: 0 }
-.pv.pv-mini .five { gap: 2px }
-.pv.pv-mini .bundle .band { height: 5px; left: -1px; right: -1px }
-.pv.pv-mini .pv-lbl { display: none }
+.pv.pv-mini {
+  --sw: 3px;
+  --sh: 34px;
+  --sg: 1px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.pv.pv-mini .pv-zone {
+  border: 0;
+  padding: 0;
+  min-height: 0;
+}
+.pv.pv-mini .pv-items {
+  gap: 5px;
+  min-height: 0;
+}
+.pv.pv-mini .five {
+  gap: 2px;
+}
+.pv.pv-mini .bundle .band {
+  height: 5px;
+  left: -1px;
+  right: -1px;
+}
+.pv.pv-mini .pv-lbl {
+  display: none;
+}
 
 /* money */
-.money { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center }
-.note10 { width: 74px; height: 40px; border-radius: 6px; background: #d9534a; color: #fff; font-family: var(--display); font-weight: 700; font-size: 18px; display: inline-flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .35) }
-.coin1 { width: 40px; height: 40px; border-radius: 50%; background: #e6b84a; color: #3a2a00; font-family: var(--display); font-weight: 700; font-size: 15px; display: inline-flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 3px rgba(0, 0, 0, .12) }
+.money {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.note10 {
+  width: 74px;
+  height: 40px;
+  border-radius: 6px;
+  background: #d9534a;
+  color: #fff;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+.coin1 {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e6b84a;
+  color: #3a2a00;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.12);
+}

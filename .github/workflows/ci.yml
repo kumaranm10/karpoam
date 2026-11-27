@@ -1,4 +1,5 @@
-# M0 gate: lesson rules + build. Later milestones add lint, types, unit, e2e, a11y, speed and security jobs.
+# Quality gates for every PR and every push to main (milestone M1).
+# Required checks on main: all five job names below.
 name: CI
 on:
   pull_request:
@@ -9,7 +10,25 @@ permissions:
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
+
 jobs:
+  quality:
+    name: Lint, types, unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with: { node-version-file: .nvmrc, cache: npm }
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test:coverage
+      - name: Coverage summary
+        if: always()
+        run: |
+          node -e "const s=require('./coverage/coverage-summary.json').total;const r=k=>s[k].pct+'%';console.log('| Lines | Statements | Functions | Branches |\n|---|---|---|---|\n| '+[r('lines'),r('statements'),r('functions'),r('branches')].join(' | ')+' |')" >> "$GITHUB_STEP_SUMMARY" || true
+
   build:
     name: Lesson rules + build
     runs-on: ubuntu-latest
@@ -17,8 +36,43 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
-        with:
-          node-version-file: .nvmrc
-          cache: npm
+        with: { node-version-file: .nvmrc, cache: npm }
       - run: npm ci
       - run: npm run build
+      - run: npm run budget
+      - uses: actions/upload-artifact@v6
+        with: { name: dist, path: dist, retention-days: 3 }
+
+  e2e:
+    name: Browser + accessibility tests
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with: { node-version-file: .nvmrc, cache: npm }
+      - run: npm ci
+      - uses: actions/download-artifact@v7
+        with: { name: dist, path: dist }
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
+      - uses: actions/upload-artifact@v6
+        if: failure()
+        with: { name: playwright-report, path: playwright-report, retention-days: 7 }
+
+  lighthouse:
+    name: Lighthouse speed check
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with: { node-version-file: .nvmrc }
+      - uses: actions/download-artifact@v7
+        with: { name: dist, path: dist }
+      - run: npx --yes @lhci/cli@0.16.1 autorun
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with: { name: lighthouse, path: .lighthouseci, retention-days: 7 }

@@ -5,15 +5,31 @@ export const SITE = site;
 import catalog from './catalog.json';
 
 /** Levels and subjects live in src/catalog.json. Set a level's "open" to true when it has lessons. */
-export interface Level { id: string; name: string; long: string; age: string; open: boolean }
-export interface Subject { id: string; name: string; tamil: string; icon: string; lang: 'en' | 'ta'; blurb: string }
+export interface Level {
+  id: string;
+  name: string;
+  long: string;
+  age: string;
+  open: boolean;
+}
+export interface Subject {
+  id: string;
+  name: string;
+  tamil: string;
+  icon: string;
+  lang: 'en' | 'ta';
+  blurb: string;
+}
 export const LEVELS = catalog.levels as Level[];
 export const SUBJECTS = catalog.subjects as Subject[];
 
 export type SubjectId = string;
 export type LevelId = string;
 
-export interface AtHome { thing: string; ask: string }
+export interface AtHome {
+  thing: string;
+  ask: string;
+}
 export interface Lesson {
   slug: string;
   title: string;
