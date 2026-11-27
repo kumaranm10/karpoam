@@ -15,7 +15,8 @@ export interface Level {
 export interface Subject {
   id: string;
   name: string;
-  tamil: string;
+  /** Tamil name, shown only on Tamil subject pages. */
+  tamil?: string;
   icon: string;
   lang: 'en' | 'ta';
   blurb: string;
@@ -33,6 +34,7 @@ export interface AtHome {
 export interface Lesson {
   slug: string;
   title: string;
+  /** Shown only on Tamil lessons. */
   titleTamil?: string;
   subject: SubjectId;
   level: LevelId;

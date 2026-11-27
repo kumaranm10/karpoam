@@ -16,7 +16,7 @@ const more = readyLessons().filter((l) => l.subject === lesson.subject && l.slug
     <div class="lesson-head" style="margin-top:12px">
       <span class="lesson-icon" aria-hidden="true">{lesson.icon}</span>
       <div class="stack" style="gap:8px">
-        <h1>{lesson.title}{lesson.titleTamil && <span class="ta muted" lang="ta" style="font-size:.55em"> · {lesson.titleTamil}</span>}</h1>
+        <h1>{lesson.title}{lesson.titleTamil && s.lang === 'ta' && <span class="ta muted" lang="ta" style="font-size:.55em"> · {lesson.titleTamil}</span>}</h1>
         <p class="lede">{lesson.hook}</p>
         <div class="chips" aria-label="Real-life examples">{lesson.realLife.map((r) => <span class="chip">{r}</span>)}</div>
       </div>
