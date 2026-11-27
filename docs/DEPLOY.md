@@ -17,7 +17,7 @@
 ## 2. Domain
 1. Buy the domain (Cloudflare Registrar sells at cost).
 2. Pages project → Custom domains → add it.
-3. Put the full address in `src/site.json` → `url` (e.g. `https://karpom.com`). It is used for canonical links and the sitemap.
+3. Put the full address in `src/site.json` → `url` (e.g. `https://karpoam.com`). It is used for canonical links and the sitemap.
 
 ## 3. Google Search Console
 Verify the domain (DNS record), then submit `https://<domain>/sitemap.xml`.

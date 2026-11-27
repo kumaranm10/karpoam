@@ -1,4 +1,4 @@
-/* Karpom design tokens.
+/* Karpoam design tokens.
    Layout idea: a warm exercise-book page; big rounded "picture cards"; one sentence at a time.
    Every colour is a token. Light values on :root, dark values in the two blocks below. */
 @import '@fontsource/fredoka/500.css';

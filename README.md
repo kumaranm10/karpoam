@@ -1,4 +1,4 @@
-# Karpom · கற்போம்
+# Karpoam · கற்போம்
 
 Free, playful picture lessons for children aged 5–8 (K2, P1, P2): Maths, English, Science and Tamil.
 Real-life examples, one sentence at a time, every sentence read aloud.

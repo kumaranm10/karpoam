@@ -4,7 +4,7 @@
  * (many phones have no Tamil voice), then a Tamil browser voice, then waits silently.
  * The sound on/off choice is remembered per device.
  */
-const KEY = 'karpom:sound';
+const KEY = 'karpoam:sound';
 const hasTTS = typeof window !== 'undefined' && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
 let on = true;
 try { on = localStorage.getItem(KEY) !== 'off'; } catch { /* storage blocked: default on */ }

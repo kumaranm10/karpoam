@@ -1,4 +1,4 @@
-# Karpom (கற்போம்) — rules for every AI agent and person working here
+# Karpoam (கற்போம்) — rules for every AI agent and person working here
 
 Read this whole file before you change anything. Antigravity/Gemini reads it automatically; Claude reads it through CLAUDE.md.
 
@@ -41,7 +41,7 @@ TASKS.md               the shared task board
 ```
 
 ## How we work together
-Agents (see the ops repo `karpom-ops` for roadmap, status and decisions):
+Agents (see the ops repo `karpoam-ops` for roadmap, status and decisions):
 
 | Agent | Runs on | Label it picks up | Main jobs |
 |---|---|---|---|
