@@ -121,7 +121,17 @@ for (const reducedMotion of ['reduce', 'no-preference'] as const) {
     await expect(page.locator('.demo-eq')).toHaveCSS('opacity', '1');
     const loop = await page.locator('.demo-times').evaluate((e) => getComputedStyle(e).animationIterationCount);
     expect(loop).toBe(reducedMotion === 'reduce' ? '1' : 'infinite');
-    const icons = await page.locator('.stile .stile-icon').evaluateAll((els) => els.map((e) => getComputedStyle(e).animationName));
-    expect(icons.every((n) => (reducedMotion === 'reduce' ? n === 'none' : n.startsWith('ic-')))).toBe(true);
+    // Icons in the subject, lesson and 4-parts sections loop forever (still with reduced motion).
+    const icons = await page
+      .locator('.band .stile-icon, .band .lc-icon, .band-how .hi')
+      .evaluateAll((els) => els.map((e) => [getComputedStyle(e).animationName, getComputedStyle(e).animationIterationCount]));
+    expect(icons.length).toBeGreaterThanOrEqual(11);
+    for (const [name, count] of icons) {
+      if (reducedMotion === 'reduce') expect(name).toBe('none');
+      else expect([name.startsWith('ic-'), count]).toEqual([true, 'infinite']);
+    }
+    // Each plate is a 2 × 2 grid: 2 cookies per row, 2 rows.
+    const rows = await plates.first().evaluate((p) => new Set([...p.children].map((c) => Math.round(c.getBoundingClientRect().top))).size);
+    expect(rows).toBe(2);
   });
 }
