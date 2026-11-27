@@ -3,7 +3,7 @@ version: 2
 updates:
   - package-ecosystem: npm
     directory: /
-    schedule: { interval: weekly, day: monday, time: '04:00', timezone: Asia/Singapore }
+    schedule: { interval: weekly, day: monday, time: "04:00", timezone: Asia/Singapore }
     open-pull-requests-limit: 3
     cooldown: { default-days: 14 }
     groups:
@@ -11,6 +11,6 @@ updates:
         update-types: [minor, patch]
   - package-ecosystem: github-actions
     directory: /
-    schedule: { interval: weekly, day: monday, time: '04:00', timezone: Asia/Singapore }
+    schedule: { interval: weekly, day: monday, time: "04:00", timezone: Asia/Singapore }
     open-pull-requests-limit: 2
     cooldown: { default-days: 14 }
