@@ -40,6 +40,11 @@
   --sec-lessons-bg: #e8f5ec;
   --sec-how-bg: #fdeee4;
   --sec-foot-bg: #ece7dc;
+  /* subject tiles on the home page: light tint of each subject colour (AA checked) */
+  --tile-maths-bg: #dbe8ff;
+  --tile-english-bg: #fff0ed;
+  --tile-science-bg: #dcfae7;
+  --tile-tamil-bg: #fde2ed;
   --display: "Fredoka", "Noto Sans Tamil", "Trebuchet MS", system-ui, sans-serif;
   --body: "Atkinson Hyperlegible", "Noto Sans Tamil", "Segoe UI", system-ui, sans-serif;
   --tamilfont: "Noto Sans Tamil", "Latha", "Tamil Sangam MN", sans-serif;
@@ -57,6 +62,10 @@
     --sec-lessons-bg: #13231b;
     --sec-how-bg: #271d16;
     --sec-foot-bg: #0f1117;
+    --tile-maths-bg: #1c2b4a;
+    --tile-english-bg: #3a1e1b;
+    --tile-science-bg: #153322;
+    --tile-tamil-bg: #381c28;
     --card: #232838;
     --line: #353b52;
     --grid: rgba(130, 160, 255, 0.06);
@@ -89,6 +98,10 @@
   --sec-lessons-bg: #13231b;
   --sec-how-bg: #271d16;
   --sec-foot-bg: #0f1117;
+  --tile-maths-bg: #1c2b4a;
+  --tile-english-bg: #3a1e1b;
+  --tile-science-bg: #153322;
+  --tile-tamil-bg: #381c28;
   --card: #232838;
   --line: #353b52;
   --grid: rgba(130, 160, 255, 0.06);

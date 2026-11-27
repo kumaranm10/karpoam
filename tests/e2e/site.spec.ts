@@ -115,8 +115,13 @@ for (const reducedMotion of ['reduce', 'no-preference'] as const) {
     expect(perPlate).toEqual([4, 4, 4]);
     await expect(page.locator('.demo-eq')).toHaveText(/4\s*\+\s*4\s*\+\s*4\s*=\s*12/);
     await expect(page.locator('.demo-times')).toHaveText(/3\s*×\s*4\s*=\s*12/);
-    // After the motion (≤ 2.3 s) everything rests fully visible.
-    await expect(page.locator('.demo-times')).toHaveCSS('opacity', '1', { timeout: 4000 });
+    // Motion loops gently; within one build-up (≤ 4.2 s) all plates and both sums are fully visible together.
+    await expect(page.locator('.demo-times')).toHaveCSS('opacity', '1', { timeout: 7000 });
     await expect(plates.nth(2)).toHaveCSS('opacity', '1');
+    await expect(page.locator('.demo-eq')).toHaveCSS('opacity', '1');
+    const loop = await page.locator('.demo-times').evaluate((e) => getComputedStyle(e).animationIterationCount);
+    expect(loop).toBe(reducedMotion === 'reduce' ? '1' : 'infinite');
+    const icons = await page.locator('.stile .stile-icon').evaluateAll((els) => els.map((e) => getComputedStyle(e).animationName));
+    expect(icons.every((n) => (reducedMotion === 'reduce' ? n === 'none' : n.startsWith('ic-')))).toBe(true);
   });
 }
