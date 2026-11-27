@@ -1,0 +1,40 @@
+---
+import '../styles/global.css';
+import '../styles/site.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../config';
+
+interface Props { title: string; description?: string; subject?: string; noindex?: boolean; lang?: string }
+const { title, description = SITE.description, subject, noindex = false, lang = 'en' } = Astro.props;
+const fullTitle = title === SITE.name ? `${SITE.name} · ${SITE.tagline}` : `${title} · ${SITE.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const cf = SITE.cloudflareAnalyticsToken;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#f3efe6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14161f" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {SITE.ads.client && <meta name="google-adsense-account" content={SITE.ads.client} />}
+  </head>
+  <body data-subject={subject}>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header current={subject} />
+    <main id="main"><slot /></main>
+    <Footer />
+    {cf && <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: cf })}></script>}
+  </body>
+</html>

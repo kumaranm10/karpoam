@@ -1,0 +1,27 @@
+---
+import Base from '../../../layouts/Base.astro';
+import LessonCard from '../../../components/LessonCard.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { SUBJECTS, LEVELS, readyLessons, type Subject, type Level } from '../../../config';
+export function getStaticPaths() {
+  return SUBJECTS.flatMap((s) => LEVELS.filter((lv) => lv.open).map((lv) => ({ params: { subject: s.id, level: lv.id }, props: { s, lv } })));
+}
+const { s, lv } = Astro.props as { s: Subject; lv: Level };
+const lessons = readyLessons().filter((l) => l.subject === s.id && l.level === lv.id);
+const others = LEVELS.filter((x) => x.open && x.id !== lv.id);
+---
+<Base title={`${s.name} ${lv.name}`} description={`${s.name} lessons for ${lv.long} (age ${lv.age}).`} subject={s.id}>
+  <div class="wrap">
+    <div class="page-head">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href={`/${s.id}/`}>{s.name}</a><span>›</span><span>{lv.name}</span></nav>
+      <h1>{s.name} · {lv.name}</h1>
+      <p class="lede">{lv.long}, age {lv.age}. {s.blurb}</p>
+    </div>
+    {lessons.length ? <div class="lgrid">{lessons.map((l) => <LessonCard lesson={l} />)}</div> : <p class="soon">New {s.name} lessons for {lv.name} are on the way.</p>}
+    <section class="section">
+      <h2>Other levels</h2>
+      <div class="levels">{others.map((x) => <a href={`/${s.id}/${x.id}/`}>{s.name} {x.name}</a>)}</div>
+    </section>
+  </div>
+  <AdSlot />
+</Base>

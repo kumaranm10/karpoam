@@ -1,0 +1,58 @@
+{
+  "title": "Living or non-living?",
+  "order": 10,
+  "icon": "🐱",
+  "hook": "Living things eat, breathe, grow and have babies. A teddy bear does none of these.",
+  "realLife": ["pets", "plants", "toys", "things at home"],
+  "widget": "sort",
+  "params": {
+    "seeTitle": "See: what makes something living?",
+    "tryTitle": "Try: sort the pictures",
+    "bins": [
+      { "id": "living", "label": "Living", "icon": "🌱", "pick": "Tap the living thing." },
+      { "id": "non", "label": "Non-living", "icon": "🧱", "pick": "Tap the non-living thing." }
+    ],
+    "ask": "Is the {name} living or non-living?",
+    "clues": [
+      { "icon": "🍽️", "text": "eats or drinks" },
+      { "icon": "🌬️", "text": "breathes" },
+      { "icon": "📏", "text": "grows" },
+      { "icon": "🐣", "text": "has babies" }
+    ],
+    "intro": { "text": "Living things <b>eat</b>, <b>breathe</b>, <b>grow</b> and have <b>babies</b>.", "say": "Living things eat or drink. They breathe. They grow. And they have babies." },
+    "story": [
+      { "item": "cat", "text": "A cat eats, breathes and grows. <b>Living!</b>", "say": "A cat eats. It breathes. It grows. It has kittens. A cat is living!", "clues": [true, true, true, true] },
+      { "item": "teddy", "text": "A teddy bear does not eat or grow. <b>Non-living.</b>", "say": "A teddy bear does not eat. It does not breathe. It does not grow. A teddy bear is non-living.", "clues": [false, false, false, false] },
+      { "item": "plant", "text": "A plant cannot walk, but it drinks and grows. <b>Living!</b>", "say": "A plant cannot walk. But it drinks water, it breathes, and it grows. A plant is living!", "clues": [true, true, true, true] },
+      { "item": "robot", "text": "A toy robot moves, but it does not eat or grow. <b>Non-living.</b>", "say": "A toy robot can move. But it does not eat, breathe or grow. A robot is non-living.", "clues": [false, false, false, false] }
+    ],
+    "items": [
+      { "id": "cat", "icon": "🐱", "name": "cat", "bin": "living", "why": "A cat eats, breathes and grows." },
+      { "id": "plant", "icon": "🪴", "name": "plant", "bin": "living", "why": "A plant drinks water and grows." },
+      { "id": "fish", "icon": "🐟", "name": "fish", "bin": "living", "why": "A fish eats, breathes and grows." },
+      { "id": "bird", "icon": "🐦", "name": "bird", "bin": "living", "why": "A bird eats, breathes and lays eggs." },
+      { "id": "tree", "icon": "🌳", "name": "tree", "bin": "living", "why": "A tree drinks water and grows tall." },
+      { "id": "baby", "icon": "👶", "name": "baby", "bin": "living", "why": "A baby drinks milk, breathes and grows." },
+      { "id": "butterfly", "icon": "🦋", "name": "butterfly", "bin": "living", "why": "A butterfly drinks, breathes and lays eggs." },
+      { "id": "ant", "icon": "🐜", "name": "ant", "bin": "living", "why": "An ant eats, breathes and grows." },
+      { "id": "teddy", "icon": "🧸", "name": "teddy bear", "bin": "non", "why": "A teddy bear does not eat or grow." },
+      { "id": "robot", "icon": "🤖", "name": "toy robot", "bin": "non", "why": "A robot moves, but it does not eat or grow." },
+      { "id": "ball", "icon": "⚽", "name": "ball", "bin": "non", "why": "A ball does not eat, breathe or grow." },
+      { "id": "chair", "icon": "🪑", "name": "chair", "bin": "non", "why": "A chair does not eat, breathe or grow." },
+      { "id": "car", "icon": "🚗", "name": "car", "bin": "non", "why": "A car moves, but it does not grow or have babies." },
+      { "id": "rock", "icon": "🪨", "name": "rock", "bin": "non", "why": "A rock does not eat, breathe or grow." },
+      { "id": "book", "icon": "📕", "name": "book", "bin": "non", "why": "A book does not eat, breathe or grow." },
+      { "id": "umbrella", "icon": "☂️", "name": "umbrella", "bin": "non", "why": "An umbrella does not eat, breathe or grow." }
+    ]
+  },
+  "atHome": [
+    { "thing": "A walk downstairs or in the park", "ask": "Point at 5 things: “Living or non-living? How do you know?”" },
+    { "thing": "A pot plant", "ask": "Water it together for a week. “Is it growing? Then it is living.”" },
+    { "thing": "Toys that move (car, robot)", "ask": "“It moves. Does it eat? Does it grow? So is it living?”" }
+  ],
+  "tips": [
+    "Moving is not the test. Cars and robots move but are non-living; plants do not walk but are living.",
+    "Use the four questions every time: Does it eat or drink? Breathe? Grow? Have babies?"
+  ],
+  "status": "ready"
+}

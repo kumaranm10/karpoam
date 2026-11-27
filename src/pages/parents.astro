@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { SITE } from '../config';
+---
+<Base title="For parents" description={`How to use ${SITE.name} with your child: 10 minutes a day, tap together, then use it in real life.`} subject="parents">
+  <div class="wrap prose">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><span>For parents</span></nav>
+    <h1>For parents</h1>
+    <p class="lede">{SITE.name} lessons are short on purpose. The real learning happens when you use the idea with real things afterwards.</p>
+
+    <h2>How to use a lesson</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Part</th><th>What your child does</th><th>What you do</th></tr></thead>
+      <tbody>
+        <tr><td>1. See</td><td>Presses Next, one sentence at a time</td><td>Sit together. Press “Again” as often as needed.</td></tr>
+        <tr><td>2. Try</td><td>Taps and builds the answer</td><td>Let them make mistakes. Ask “How do you know?”</td></tr>
+        <tr><td>3. Check</td><td>Answers a picture quiz</td><td>Praise the counting, not just the right answer.</td></tr>
+        <tr><td>4. At home</td><td>Uses it with real things</td><td>Ask the questions in the “At home” table this week.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>A good routine</h2>
+    <ul>
+      <li><strong>10 minutes a day</strong> is enough. Stop while it is still fun.</li>
+      <li><strong>One idea a week.</strong> Repeat the same lesson on different days, then ask about it at meals, in the lift or at the shop.</li>
+      <li><strong>Sound on.</strong> Every sentence is read aloud, so early readers can follow. Use headphones in public.</li>
+      <li><strong>Phone, tablet or computer</strong> all work. No app or sign-up needed.</li>
+    </ul>
+
+    <h2>Levels</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Level</th><th>Usual age</th><th>Fits with</th></tr></thead>
+      <tbody>
+        <tr><td>K2</td><td>5–6</td><td>Kindergarten 2</td></tr>
+        <tr><td>P1</td><td>6–7</td><td>Primary 1</td></tr>
+        <tr><td>P2</td><td>7–8</td><td>Primary 2</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted">Children move at different speeds. Pick the level where your child is comfortable, not their age.</p>
+  </div>
+  <AdSlot />
+</Base>

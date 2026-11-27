@@ -1,0 +1,14 @@
+{
+  "levels": [
+    { "id": "k2", "name": "K2", "long": "Kindergarten 2", "age": "5–6", "open": true },
+    { "id": "p1", "name": "P1", "long": "Primary 1", "age": "6–7", "open": true },
+    { "id": "p2", "name": "P2", "long": "Primary 2", "age": "7–8", "open": true },
+    { "id": "p3", "name": "P3", "long": "Primary 3", "age": "8–9", "open": false }
+  ],
+  "subjects": [
+    { "id": "maths", "name": "Maths", "tamil": "கணக்கு", "icon": "🧮", "lang": "en", "blurb": "Numbers you can see, touch and count." },
+    { "id": "english", "name": "English", "tamil": "ஆங்கிலம்", "icon": "🔤", "lang": "en", "blurb": "Sounds, letters and first words." },
+    { "id": "science", "name": "Science", "tamil": "அறிவியல்", "icon": "🌱", "lang": "en", "blurb": "Why things around us happen." },
+    { "id": "tamil", "name": "Tamil", "tamil": "தமிழ்", "icon": "அ", "lang": "ta", "blurb": "Tamil letters, sounds and words." }
+  ]
+}

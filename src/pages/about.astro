@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+---
+<Base title="About" description={`Why ${SITE.name} exists and how it is made.`}>
+  <div class="wrap prose">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><span>About</span></nav>
+    <h1>About {SITE.name}</h1>
+    <p class="lede"><span class="ta" lang="ta">{SITE.nameTamil}</span> ({SITE.name}) means “Let’s learn” in Tamil.</p>
+    <p>It started when a parent in Singapore saw his son stuck on a school question: <em>“Which is the same as 74: 6 tens 4 ones, 6 tens 14 ones, or 7 tens 10 ones?”</em> Explaining with words did not help. Showing it with bundles of sticks did.</p>
+    <p>So every lesson here shows an idea with real things a child already knows, lets them build it themselves, and reads every sentence aloud.</p>
+    <h2>What we promise</h2>
+    <ul>
+      <li>Free to use, with no sign-up and no child accounts.</li>
+      <li>Numbers and pictures are drawn by code, so counts are always exact.</li>
+      <li>At most one small ad per page, kept away from anything a child taps, only to pay for the domain.</li>
+    </ul>
+    {SITE.contactEmail && <p>Ideas or mistakes? Email <span>{SITE.contactEmail}</span>.</p>}
+  </div>
+</Base>

@@ -1,0 +1,53 @@
+---
+import Base from '../../../layouts/Base.astro';
+import LessonCard from '../../../components/LessonCard.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { LESSONS, type Lesson, subjectById, levelById, readyLessons } from '../../../config';
+export function getStaticPaths() {
+  return LESSONS.map((l) => ({ params: { subject: l.subject, level: l.level, slug: l.slug }, props: { lesson: l } }));
+}
+const { lesson } = Astro.props as { lesson: Lesson };
+const s = subjectById(lesson.subject), lv = levelById(lesson.level);
+const more = readyLessons().filter((l) => l.subject === lesson.subject && l.slug !== lesson.slug).slice(0, 3);
+---
+<Base title={`${lesson.title} · ${s.name} ${lv.name}`} description={lesson.hook} subject={s.id} noindex={lesson.status !== 'ready'}>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href={`/${s.id}/`}>{s.name}</a><span>›</span><a href={`/${s.id}/${lv.id}/`}>{lv.name}</a></nav>
+    <div class="lesson-head" style="margin-top:12px">
+      <span class="lesson-icon" aria-hidden="true">{lesson.icon}</span>
+      <div class="stack" style="gap:8px">
+        <h1>{lesson.title}{lesson.titleTamil && <span class="ta muted" lang="ta" style="font-size:.55em"> · {lesson.titleTamil}</span>}</h1>
+        <p class="lede">{lesson.hook}</p>
+        <div class="chips" aria-label="Real-life examples">{lesson.realLife.map((r) => <span class="chip">{r}</span>)}</div>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson" data-widget={lesson.widget} data-params={JSON.stringify(lesson.params ?? {})} lang={s.lang} data-lang={s.lang} data-title={lesson.title}>
+      <p class="loading">Loading the lesson…</p>
+      <noscript><p class="loading">This lesson needs JavaScript switched on.</p></noscript>
+    </div>
+
+    <section class="step athome section" aria-label="At home">
+      <div class="step-head"><span class="step-num" aria-hidden="true">🏠</span><span class="step-title">At home: use it in real life</span></div>
+      <p class="muted">For parents. After the screen, ask about real things around you.</p>
+      <div class="tw"><table>
+        <thead><tr><th>Real thing</th><th>Ask your child</th></tr></thead>
+        <tbody>{lesson.atHome.map((a) => <tr><td>{a.thing}</td><td>{a.ask}</td></tr>)}</tbody>
+      </table></div>
+      {lesson.tips?.length ? <ul class="tips">{lesson.tips.map((t) => <li>{t}</li>)}</ul> : null}
+    </section>
+
+    {more.length > 0 && (
+      <section class="section">
+        <h2>More {s.name}</h2>
+        <div class="lgrid">{more.map((l) => <LessonCard lesson={l} />)}</div>
+      </section>
+    )}
+  </div>
+  <AdSlot />
+</Base>
+<script>
+  import { mountLesson } from '../../../widgets/registry';
+  const el = document.getElementById('lesson');
+  if (el) void mountLesson(el);
+</script>

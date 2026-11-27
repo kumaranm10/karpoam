@@ -1,0 +1,18 @@
+---
+/**
+ * One small ad, only when ads are switched on in src/site.json (ads.client and ads.slot).
+ * Rules: place only in grown-up areas (after "At home" / at the bottom), never inside a lesson step.
+ * The 160px top margin keeps it more than 150px away from anything a child taps.
+ * data-tag-for-age-treatment="1" asks Google for child-directed treatment.
+ */
+import { SITE } from '../config';
+const { client, slot } = SITE.ads;
+---
+{client && slot && (
+  <aside class="ad wrap" aria-label="Advertisement">
+    <span class="ad-label">Advertisement</span>
+    <ins class="adsbygoogle karpom-ad" data-ad-client={client} data-ad-slot={slot} data-tag-for-age-treatment="1"></ins>
+    <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`} crossorigin="anonymous"></script>
+    <script is:inline>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </aside>
+)}

@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+const updated = '27 November 2026';
+---
+<Base title="Privacy" description={`How ${SITE.name} handles data.`}>
+  <div class="wrap prose">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><span>Privacy</span></nav>
+    <h1>Privacy</h1>
+    <p class="muted">Last updated {updated}</p>
+    <h2>What we collect</h2>
+    <ul>
+      <li>We do not ask for names, emails, ages or any other personal details. There are no accounts.</li>
+      <li>Your sound on/off choice is saved only in your own browser.</li>
+      <li>We may count page visits with Cloudflare Web Analytics, which does not use cookies and does not identify you.</li>
+    </ul>
+    <h2>Advertising</h2>
+    <p>Some pages may show one ad from Google AdSense to cover running costs. Our pages are tagged as directed at children, which asks Google to turn off interest-based (personalised) ads and remarketing. Google may still use cookies or similar technology to show and measure ads. You can read how Google uses data at <span>policies.google.com/technologies/partner-sites</span>.</p>
+    <p>Visitors in the European Economic Area, the UK and Switzerland are asked for consent before ad cookies are used.</p>
+    <h2>Text-to-speech</h2>
+    <p>Sentences are read aloud by the speech engine built into your own device or browser. Depending on your device settings, your browser may use an online voice service from its maker.</p>
+    <h2>Contact</h2>
+    <p>{SITE.contactEmail ? <>Questions about privacy: <span>{SITE.contactEmail}</span>.</> : 'A contact email will be added here.'}</p>
+  </div>
+</Base>

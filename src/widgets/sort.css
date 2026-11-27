@@ -1,0 +1,25 @@
+/* Sort: one picture at a time goes into the right basket. Fully data-driven. */
+.so-card { display: flex; flex-direction: column; align-items: center; gap: 6px; background: var(--card); border: 3px solid var(--line); border-radius: 22px; padding: 14px 22px; min-width: 150px; box-shadow: var(--shadow) }
+.so-card.in { animation: dropin .5s cubic-bezier(.3, 1.5, .5, 1) both }
+.so-icon { font-size: 84px; line-height: 1 }
+.so-name { font-family: var(--display); font-weight: 600; font-size: 24px }
+.so-clues { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center }
+.so-clue { display: inline-flex; align-items: center; gap: 6px; font-family: var(--display); font-weight: 500; font-size: 17px; padding: 4px 12px; border-radius: 999px; background: var(--paper); border: 2px solid var(--line) }
+.so-clue.yes { border-color: var(--good) }
+.so-clue.no { opacity: .55; text-decoration: line-through }
+.so-clue .m { font-weight: 700 }
+.so-clue.yes .m { color: var(--good) }
+.so-clue.no .m { color: var(--bad) }
+.so-bins { display: grid; grid-template-columns: repeat(var(--bins, 2), minmax(0, 1fr)); gap: 12px; width: 100% }
+.so-bin { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px 10px; border-radius: 18px; border: 3px dashed var(--line); background: var(--paper); min-height: 120px; font: inherit; color: var(--ink) }
+button.so-bin { cursor: pointer; border-style: solid }
+button.so-bin:hover:not(:disabled) { border-color: var(--accent) }
+.so-bin.good { border-color: var(--good); border-style: solid }
+.so-bin.bad { border-color: var(--bad); border-style: solid; animation: shake .45s }
+.so-bin-head { font-family: var(--display); font-weight: 700; font-size: 22px; display: flex; align-items: center; gap: 8px }
+.so-bin-head .bi { font-size: 30px }
+.so-got { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; font-size: 26px; min-height: 32px }
+.so-got span { animation: dropin .45s cubic-bezier(.3, 1.5, .5, 1) both }
+.so-progress { color: var(--muted); font-family: var(--display); font-weight: 500 }
+.qopt .so-icon { font-size: 60px }
+@keyframes shake { 0%, 100% { transform: none } 25% { transform: translateX(-5px) } 75% { transform: translateX(5px) } }

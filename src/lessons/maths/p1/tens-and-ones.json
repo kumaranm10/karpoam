@@ -1,0 +1,19 @@
+{
+  "title": "Tens and ones",
+  "order": 20,
+  "icon": "🍦",
+  "hook": "Bundle ice-cream sticks into tens. Then any number is just bundles and loose sticks.",
+  "realLife": ["ice-cream sticks", "$10 notes and $1 coins"],
+  "widget": "place-value",
+  "params": { "target": 74 },
+  "atHome": [
+    { "thing": "Ice-cream sticks or straws with rubber bands", "ask": "Make bundles of 10. “Show me 36.” Then: “Can you show 36 with only 2 bundles?”" },
+    { "thing": "$10 notes and $1 coins (real or toy)", "ask": "“I have 4 ten-dollar notes and 7 one-dollar coins. How much?”" },
+    { "thing": "Lift or bus numbers", "ask": "Point at a number like 52: “How many tens? How many ones?”" }
+  ],
+  "tips": [
+    "Say one sentence often: “Ten ones make one ten. Open a ten, get ten ones back.”",
+    "In school questions like “6 tens 14 ones”, count the tens by 10, 20, 30… then add the ones. Check every option."
+  ],
+  "status": "ready"
+}

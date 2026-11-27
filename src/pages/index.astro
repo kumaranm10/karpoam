@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import LessonCard from '../components/LessonCard.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { SITE, SUBJECTS, readyLessons } from '../config';
+const lessons = readyLessons();
+const count = (id: string) => lessons.filter((l) => l.subject === id).length;
+---
+<Base title={SITE.name}>
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Free · Ages 5–8 · K2 to P2</span>
+        <h1>Learn by <span class="hl">seeing, tapping</span> and doing.</h1>
+        <p class="lede">Short picture lessons with real things your child knows: cookies, cars, coins and pets. One sentence at a time, read aloud.</p>
+        <div class="hero-ctas">
+          <a class="btn go" href="/maths/">Start with Maths</a>
+          <a class="btn" href="/parents/">How it works</a>
+        </div>
+      </div>
+      <div class="hero-demo" role="img" aria-label="3 plates with 4 cookies each: 4 plus 4 plus 4 equals 12, so 3 times 4 equals 12">
+        <div class="demo-plates" aria-hidden="true">
+          <span class="demo-plate">🍪🍪🍪🍪</span><span class="demo-plate">🍪🍪🍪🍪</span><span class="demo-plate">🍪🍪🍪🍪</span>
+        </div>
+        <div class="demo-eq" aria-hidden="true"><span class="ec">4</span> + <span class="ec">4</span> + <span class="ec">4</span> = 12</div>
+        <div class="demo-times" aria-hidden="true"><span class="g">3</span> × <span class="o">4</span> = 12</div>
+        <p class="muted">3 plates of 4 cookies</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="subj-h">
+      <h2 id="subj-h">Pick a subject</h2>
+      <div class="subjects">
+        {SUBJECTS.map((s) => (
+          <a class="stile" href={`/${s.id}/`} data-subject={s.id}>
+            <span class="stile-icon" aria-hidden="true">{s.icon}</span>
+            <span class="stile-name">{s.name}</span>
+            <span class="stile-ta ta" lang="ta">{s.tamil}</span>
+            <span class="stile-blurb">{s.blurb}</span>
+            <span class="stile-count">{count(s.id) ? `${count(s.id)} ${count(s.id) === 1 ? 'lesson' : 'lessons'} →` : 'Coming soon'}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="new-h">
+      <h2 id="new-h">Lessons to try</h2>
+      <div class="lgrid">{lessons.map((l) => <LessonCard lesson={l} showSubject />)}</div>
+    </section>
+
+    <section class="section" aria-labelledby="how-h">
+      <h2 id="how-h">Every lesson has 4 parts</h2>
+      <ol class="how">
+        <li><span class="hn">Part 1</span><span class="hi" aria-hidden="true">👀</span><span class="ht">See</span><span class="muted">A tiny story with real things, one sentence per screen.</span></li>
+        <li><span class="hn">Part 2</span><span class="hi" aria-hidden="true">👆</span><span class="ht">Try</span><span class="muted">Your child taps and builds it with their own hands.</span></li>
+        <li><span class="hn">Part 3</span><span class="hi" aria-hidden="true">✅</span><span class="ht">Check</span><span class="muted">A picture quiz that explains every answer.</span></li>
+        <li><span class="hn">Part 4</span><span class="hi" aria-hidden="true">🏠</span><span class="ht">At home</span><span class="muted">Questions for parents to ask about real things.</span></li>
+      </ol>
+    </section>
+  </div>
+  <AdSlot />
+</Base>

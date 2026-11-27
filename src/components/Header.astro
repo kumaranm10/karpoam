@@ -1,0 +1,29 @@
+---
+import { SITE, SUBJECTS } from '../config';
+const { current } = Astro.props as { current?: string };
+---
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="/" aria-label={`${SITE.name} home`}>
+      <span class="mark" aria-hidden="true">க</span>
+      <span class="brand-text"><span class="brand-name">{SITE.name}</span><span class="brand-ta ta" lang="ta">{SITE.nameTamil}</span></span>
+    </a>
+    <button class="btn sm sound" id="sound-toggle" type="button" aria-pressed="true">🔊 Sound on</button>
+  </div>
+  <nav class="wrap subj-nav" aria-label="Subjects">
+    {SUBJECTS.map((s) => (
+      <a href={`/${s.id}/`} data-subject={s.id} aria-current={current === s.id ? 'page' : undefined}>
+        <span class="ni" aria-hidden="true">{s.icon}</span>{s.name}
+      </a>
+    ))}
+    <a href="/parents/" aria-current={current === 'parents' ? 'page' : undefined}><span class="ni" aria-hidden="true">👪</span>Parents</a>
+  </nav>
+</header>
+<script>
+  import { soundOn, setSound, onSoundChange } from '../lib/voice';
+  const b = document.getElementById('sound-toggle')!;
+  const paint = (on: boolean) => { b.textContent = on ? '🔊 Sound on' : '🔇 Sound off'; b.setAttribute('aria-pressed', String(on)); };
+  paint(soundOn());
+  onSoundChange(paint);
+  b.addEventListener('click', () => setSound(!soundOn()));
+</script>

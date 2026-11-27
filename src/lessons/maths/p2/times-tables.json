@@ -1,0 +1,22 @@
+{
+  "title": "Times tables: equal groups",
+  "order": 10,
+  "icon": "🍪",
+  "hook": "× means “groups of”. 3 × 4 is 3 plates with 4 cookies on each: 4 + 4 + 4.",
+  "realLife": ["cookies on plates", "wheels on cars", "fingers on hands", "days in a week"],
+  "widget": "groups",
+  "params": { "n": 4, "k": 3 },
+  "atHome": [
+    { "thing": "Wheels on cars", "ask": "“3 cars in the car park. How many wheels?”" },
+    { "thing": "Fingers on hands", "ask": "“Hold up 3 hands with me. How many fingers?”" },
+    { "thing": "Shoes at the door", "ask": "“4 people came home. How many shoes?”" },
+    { "thing": "Days in a week", "ask": "“How many days in 2 weeks?”" },
+    { "thing": "Eggs in a box of 6", "ask": "“2 boxes of 6 eggs. How many eggs?”" }
+  ],
+  "tips": [
+    "Read 3 × 4 out loud as “3 groups of 4”, then add 4 + 4 + 4.",
+    "Counting on fingers is fine. Adding the same number again is exactly what times means.",
+    "One table a week: start with 2, 5 and 10, and use its real thing all week."
+  ],
+  "status": "ready"
+}

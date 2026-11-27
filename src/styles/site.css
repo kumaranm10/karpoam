@@ -1,0 +1,114 @@
+/* Site chrome: header, footer, home, listings, lesson page, ad slot. */
+.skip { position: absolute; left: -999px; top: 8px; background: var(--card); padding: 8px 12px; border-radius: 8px; z-index: 50 }
+.skip:focus { left: 12px }
+
+.site-head { background: var(--card); border-bottom: 1px solid var(--line) }
+.head-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 12px }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink) }
+.mark { width: 44px; height: 44px; border-radius: 14px; background: var(--maths); color: #fff; font-family: var(--tamilfont); font-weight: 700; font-size: 24px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 4px 0 color-mix(in srgb, var(--maths) 60%, #000) }
+.brand-text { display: flex; flex-direction: column; line-height: 1.05 }
+.brand-name { font-family: var(--display); font-weight: 700; font-size: 24px }
+.brand-ta { font-size: 13px; color: var(--muted) }
+.subj-nav { display: flex; gap: 6px; padding-block: 0 10px; overflow-x: auto; scrollbar-width: none }
+.subj-nav::-webkit-scrollbar { display: none }
+.subj-nav a { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; text-decoration: none; font-family: var(--display); font-weight: 600; font-size: 16px; border: 2px solid var(--line); background: var(--paper); min-height: 44px }
+.subj-nav a:hover { border-color: var(--accent) }
+.subj-nav a[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent) }
+.subj-nav .ni { font-size: 18px }
+.subj-nav a[data-subject="tamil"] .ni { font-family: var(--tamilfont); font-weight: 700 }
+
+main { padding-block: 28px 40px }
+.page-head { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px }
+.crumbs { display: flex; flex-wrap: wrap; gap: 6px; font-family: var(--display); font-weight: 500; color: var(--muted); font-size: 15px }
+.crumbs a { text-decoration: none }
+.crumbs a:hover { text-decoration: underline }
+.section { display: flex; flex-direction: column; gap: 16px; margin-top: 40px }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap }
+
+/* home hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 28px; align-items: center }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr } }
+.hero-copy { display: flex; flex-direction: column; gap: 14px }
+.hero h1 .hl { color: var(--maths) }
+.hero-demo { background: var(--paper); border: 2px solid var(--line); border-radius: 26px; padding: 22px 18px; display: flex; flex-direction: column; align-items: center; gap: 14px; box-shadow: var(--shadow);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 24px 24px }
+.demo-plates { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center }
+.demo-plate { width: 96px; height: 96px; border-radius: 50%; background: var(--plate); border: 4px solid var(--rim); box-shadow: 0 5px 0 var(--rim); display: grid; grid-template-columns: repeat(2, auto); place-content: center; gap: 2px; font-size: 24px }
+.demo-eq { font-family: var(--display); font-weight: 600; font-size: clamp(22px, 4vw, 28px); text-align: center; font-variant-numeric: tabular-nums }
+.demo-eq .ec { background: var(--one); color: var(--one-ink); border-radius: 9px; padding: 0 10px }
+.demo-times { font-family: var(--display); font-weight: 700; font-size: clamp(34px, 7vw, 48px); line-height: 1 }
+.demo-times .g { color: var(--maths) } .demo-times .o { color: var(--one-text) }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px }
+
+/* subject tiles */
+.subjects { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px }
+@media (max-width: 860px) { .subjects { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.stile { display: flex; flex-direction: column; gap: 6px; padding: 18px; border-radius: var(--r-lg); background: var(--card); border: 2px solid var(--line); text-decoration: none; color: var(--ink); min-width: 0; transition: transform .15s, border-color .15s }
+.stile:hover { transform: translateY(-3px); border-color: var(--accent) }
+.stile-icon { width: 58px; height: 58px; border-radius: 18px; background: color-mix(in srgb, var(--accent) 14%, var(--card)); display: inline-flex; align-items: center; justify-content: center; font-size: 32px; color: var(--accent); font-family: var(--tamilfont); font-weight: 700 }
+.stile-name { font-family: var(--display); font-weight: 700; font-size: 24px }
+.stile-ta { font-size: 14px; color: var(--muted) }
+.stile-blurb { color: var(--muted); font-size: 15px }
+.stile-count { margin-top: auto; padding-top: 6px; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--accent) }
+
+/* lesson cards */
+.lgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px }
+.lcard { display: flex; gap: 14px; align-items: flex-start; padding: 16px; border-radius: var(--r-lg); background: var(--card); border: 2px solid var(--line); text-decoration: none; color: var(--ink); min-width: 0; transition: transform .15s, border-color .15s }
+.lcard:hover { transform: translateY(-3px); border-color: var(--accent) }
+.lc-icon { flex: none; width: 60px; height: 60px; border-radius: 18px; background: color-mix(in srgb, var(--accent) 14%, var(--card)); display: inline-flex; align-items: center; justify-content: center; font-size: 34px }
+.lc-body { display: flex; flex-direction: column; gap: 2px; min-width: 0 }
+.lc-meta { font-family: var(--display); font-weight: 600; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent) }
+.lc-title { font-family: var(--display); font-weight: 600; font-size: 21px; line-height: 1.2 }
+.lc-hook { color: var(--muted); font-size: 15px }
+.soon { padding: 18px; border-radius: var(--r-lg); border: 2px dashed var(--line); color: var(--muted); font-family: var(--display); font-weight: 500 }
+
+/* how it works */
+.how { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; list-style: none; margin: 0; padding: 0 }
+@media (max-width: 760px) { .how { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.how li { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px; display: flex; flex-direction: column; gap: 6px }
+.how .hn { font-family: var(--display); font-weight: 700; font-size: 15px; color: var(--muted) }
+.how .ht { font-family: var(--display); font-weight: 600; font-size: 22px }
+.how .hi { font-size: 30px }
+
+/* level chips on subject page */
+.levels { display: flex; gap: 8px; flex-wrap: wrap }
+.levels a { text-decoration: none; padding: 8px 16px; border-radius: 999px; border: 2px solid var(--line); background: var(--card); font-family: var(--display); font-weight: 600; min-height: 44px; display: inline-flex; align-items: center }
+.levels a:hover { border-color: var(--accent) }
+.level-block { display: flex; flex-direction: column; gap: 14px; scroll-margin-top: 16px }
+.level-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap }
+.level-title .age { color: var(--muted); font-size: 15px }
+.subject-hero { display: flex; gap: 16px; align-items: center }
+.subject-hero .stile-icon { width: 76px; height: 76px; font-size: 44px; border-radius: 22px; flex: none }
+
+/* lesson page */
+.lesson-head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: center; margin-bottom: 20px }
+.lesson-icon { width: 84px; height: 84px; border-radius: 24px; background: color-mix(in srgb, var(--accent) 14%, var(--card)); font-size: 48px; display: inline-flex; align-items: center; justify-content: center }
+@media (max-width: 520px) { .lesson-head { grid-template-columns: 1fr } .lesson-icon { width: 64px; height: 64px; font-size: 36px } }
+.chips { display: flex; flex-wrap: wrap; gap: 6px }
+.chip { font-family: var(--display); font-weight: 500; font-size: 14px; padding: 3px 10px; border-radius: 999px; background: var(--card); border: 1px solid var(--line) }
+.lesson { display: flex; flex-direction: column; gap: 22px }
+.loading { padding: 40px; text-align: center; color: var(--muted); font-family: var(--display) }
+.athome .step-num { background: var(--one); color: var(--one-ink); font-size: 18px }
+.athome td:first-child { font-family: var(--display); font-weight: 600 }
+.tips { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; max-width: 70ch }
+
+/* prose pages */
+.prose { max-width: 68ch; display: flex; flex-direction: column; gap: 14px }
+.prose h2 { margin-top: 18px }
+.prose ul { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px }
+
+/* ad */
+.ad { margin-top: 160px; margin-bottom: 8px; display: flex; flex-direction: column; align-items: center; gap: 6px }
+.ad-label { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted) }
+.karpom-ad { display: inline-block; width: 320px; height: 100px }
+@media (min-width: 760px) { .karpom-ad { width: 728px; height: 90px } }
+
+/* footer */
+.site-foot { border-top: 1px solid var(--line); background: var(--card); padding-block: 28px; margin-top: 40px }
+.foot-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 20px }
+@media (max-width: 640px) { .foot-grid { grid-template-columns: 1fr 1fr } .foot-brand { grid-column: 1 / -1 } }
+.foot-name { font-family: var(--display); font-weight: 700; font-size: 20px }
+.foot-links { display: flex; flex-direction: column; gap: 6px }
+.foot-links a { text-decoration: none; min-height: 32px; display: inline-flex; align-items: center }
+.foot-links a:hover { text-decoration: underline }
+.foot-small { font-size: 14px; margin-top: 18px }

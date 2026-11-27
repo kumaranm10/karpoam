@@ -1,0 +1,21 @@
+---
+import { SITE, SUBJECTS } from '../config';
+const year = new Date().getFullYear();
+---
+<footer class="site-foot">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <p class="foot-name">{SITE.name} <span class="ta" lang="ta">· {SITE.nameTamil}</span></p>
+      <p class="muted">“Let’s learn” in Tamil. Free picture lessons for children aged 5 to 8, made by a parent in Singapore.</p>
+    </div>
+    <nav aria-label="Subjects" class="foot-links">
+      {SUBJECTS.map((s) => <a href={`/${s.id}/`}>{s.name}</a>)}
+    </nav>
+    <nav aria-label="About this site" class="foot-links">
+      <a href="/parents/">For parents</a>
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+    </nav>
+  </div>
+  <div class="wrap muted foot-small">© {year} {SITE.name}. No sign-up, no child accounts.</div>
+</footer>

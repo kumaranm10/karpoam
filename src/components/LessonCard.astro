@@ -1,0 +1,13 @@
+---
+import { type Lesson, lessonUrl, subjectById, levelById } from '../config';
+const { lesson, showSubject = false } = Astro.props as { lesson: Lesson; showSubject?: boolean };
+const s = subjectById(lesson.subject), lv = levelById(lesson.level);
+---
+<a class="lcard" href={lessonUrl(lesson)} data-subject={lesson.subject}>
+  <span class="lc-icon" aria-hidden="true">{lesson.icon}</span>
+  <span class="lc-body">
+    <span class="lc-meta">{showSubject ? `${s.name} · ` : ''}{lv.name}</span>
+    <span class="lc-title">{lesson.title}</span>
+    <span class="lc-hook">{lesson.hook}</span>
+  </span>
+</a>
