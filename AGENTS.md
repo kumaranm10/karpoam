@@ -67,7 +67,7 @@ Agents (see the ops repo `karpoam-ops` for roadmap, status and decisions):
 | Agent               | Runs on                                         | Label it picks up   | Main jobs                                                  |
 | ------------------- | ----------------------------------------------- | ------------------- | ---------------------------------------------------------- |
 | Claude              | GitHub Actions (cloud)                          | `agent:claude`      | code, widgets, tests, planning, reviews Google agents' PRs |
-| Gemini (cloud lane) | GitHub Actions (cloud)                          | `agent:gemini`      | PR reviews, issue triage, small text fixes                 |
+| Gemini (cloud lane) | GitHub Actions (cloud)                          | `agent:gemini`      | PR reviews, design proposals (`type:design`), triage       |
 | Antigravity (`agy`) | Kumaran's computer (self-hosted runner, Docker) | `agent:antigravity` | lessons, Tamil content, bigger tasks, reviews Claude's PRs |
 
 Flow for every task:
@@ -84,6 +84,8 @@ Flow for every task:
    - `hold` or `needs-kumaran` stops it. After 3 rounds of "changes requested" the gate adds `needs-kumaran`.
 7. If a check fails twice after your fixes, stop, label `needs-kumaran`, and explain in a comment.
 8. If the repo variable `AGENTS_ENABLED` is `false`, do nothing.
+
+Design work is shared: an issue labelled `type:design` + `agent:gemini` runs `.github/workflows/gemini-design.yml`, where Gemini looks at screenshots of `main` (phone + desktop, light + dark) and posts a design proposal on the issue. Claude builds it (and says in the PR where it differs, e.g. for contrast or calmer motion), Gemini reviews the PR, Kumaran approves the preview. Motion on the site: CSS transform/opacity only, calm, and still with `prefers-reduced-motion`.
 
 Pin every GitHub Action to a full commit SHA with the version in a comment (Dependabot keeps them updated). Never weaken a gate (checks, thresholds, budgets, rules) to make your PR pass. Do not edit files owned by another open PR. Do not reformat files you did not need to touch.
 
