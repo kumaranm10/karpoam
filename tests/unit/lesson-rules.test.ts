@@ -62,6 +62,11 @@ describe('lesson rules', () => {
   it('rejects Hindi characters anywhere', () => {
     expect(has(run({ 'tamil/k2/a.json': { ...good, title: 'அம்மா नमस्ते' } }), 'Devanagari')).toBe(true);
   });
+  it('allows Tamil script only in Tamil lessons', () => {
+    expect(has(run({ 'maths/p1/a.json': { ...good, titleTamil: 'பத்து' } }), 'Tamil script')).toBe(true);
+    expect(has(run({ 'science/k2/a.json': { ...good, realLife: ['ஆடு'] } }), 'Tamil script')).toBe(true);
+    expect(has(run({ 'tamil/k2/a.json': { ...good, title: 'அம்மா' } }), 'Tamil script')).toBe(false);
+  });
   it('rejects missing audio files', () => {
     expect(has(run({ 'tamil/k2/a.json': { ...good, title: 'அ', params: { target: 74, audio: '/audio/ta/x/1.mp3' } } }), 'audio file')).toBe(true);
   });

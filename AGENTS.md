@@ -99,6 +99,7 @@ Pin every GitHub Action to a full commit SHA with the version in a comment (Depe
 ## Content rules
 
 - English: British spelling (colour, maths), Singapore context, short words. Never shame a wrong answer ("Not quite" + the reason).
+- Tamil script appears only on Tamil subject pages and lessons, and in the Karpoam logo. Every other page is English only (the lesson gate and e2e tests enforce this).
 - Tamil: Tamil script only (no Hindi/Devanagari, no Tanglish in Tamil fields). Use common spoken words a child hears at home. Include a recorded MP3 for each Tamil sentence that will be read aloud (`public/audio/ta/<lesson>/<id>.mp3`), because many phones have no Tamil voice.
 - Science: facts must be correct for a curious adult too. When unsure, leave the item out.
 - Maths: follow Singapore primary methods (number bonds, bar models, "groups of" for ×, count on by tens).

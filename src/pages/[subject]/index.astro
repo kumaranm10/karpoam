@@ -14,7 +14,7 @@ const levels = LEVELS.filter((lv) => lv.open);
       <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><span>{s.name}</span></nav>
       <div class="subject-hero">
         <span class="stile-icon" aria-hidden="true">{s.icon}</span>
-        <div><h1>{s.name} <span class="ta muted" lang="ta" style="font-size:.5em">{s.tamil}</span></h1><p class="lede">{s.blurb}</p></div>
+        <div><h1>{s.name}{s.lang === 'ta' && s.tamil && <span class="ta muted" lang="ta" style="font-size:.5em"> {s.tamil}</span>}</h1><p class="lede">{s.blurb}</p></div>
       </div>
       <div class="levels" aria-label="Jump to level">{levels.map((lv) => <a href={`/${s.id}/${lv.id}/`}>{lv.name} <span class="muted">&nbsp;· age {lv.age}</span></a>)}</div>
     </div>

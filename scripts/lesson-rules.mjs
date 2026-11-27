@@ -81,6 +81,10 @@ export function checkLessons(root) {
           if (/^\/audio\/.+\.(mp3|m4a|ogg|wav)$/.test(s) && !existsSync(join(root, 'public', s))) err(f, `${p}: audio file public${s} is missing`);
         });
         if (SUBJ.get(subject).lang === 'ta' && !/[஀-௿]/.test(JSON.stringify(L))) warn(f, 'Tamil lesson has no Tamil script in it');
+        if (SUBJ.get(subject).lang !== 'ta')
+          walkStrings(L, (s, p) => {
+            if (/[஀-௿]/.test(s)) err(f, `${p} has Tamil script; Tamil text belongs only in Tamil lessons`);
+          });
 
         const P = L.params ?? {};
         if (L.widget === 'place-value' && P.target !== undefined && !(P.target >= 21 && P.target <= 99 && P.target % 10 !== 0))
