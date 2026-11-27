@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import LessonCard from '../../components/LessonCard.astro';
 import AdSlot from '../../components/AdSlot.astro';
-import { SUBJECTS, LEVELS, readyLessons, type Subject, type Level } from '../../config';
+import { SUBJECTS, LEVELS, readyLessons, type Subject } from '../../config';
 export function getStaticPaths() { return SUBJECTS.map((s) => ({ params: { subject: s.id }, props: { s } })); }
 const { s } = Astro.props as { s: Subject };
 const lessons = readyLessons().filter((l) => l.subject === s.id);

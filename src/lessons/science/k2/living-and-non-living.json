@@ -19,12 +19,35 @@
       { "icon": "📏", "text": "grows" },
       { "icon": "🐣", "text": "has babies" }
     ],
-    "intro": { "text": "Living things <b>eat</b>, <b>breathe</b>, <b>grow</b> and have <b>babies</b>.", "say": "Living things eat or drink. They breathe. They grow. And they have babies." },
+    "intro": {
+      "text": "Living things <b>eat</b>, <b>breathe</b>, <b>grow</b> and have <b>babies</b>.",
+      "say": "Living things eat or drink. They breathe. They grow. And they have babies."
+    },
     "story": [
-      { "item": "cat", "text": "A cat eats, breathes and grows. <b>Living!</b>", "say": "A cat eats. It breathes. It grows. It has kittens. A cat is living!", "clues": [true, true, true, true] },
-      { "item": "teddy", "text": "A teddy bear does not eat or grow. <b>Non-living.</b>", "say": "A teddy bear does not eat. It does not breathe. It does not grow. A teddy bear is non-living.", "clues": [false, false, false, false] },
-      { "item": "plant", "text": "A plant cannot walk, but it drinks and grows. <b>Living!</b>", "say": "A plant cannot walk. But it drinks water, it breathes, and it grows. A plant is living!", "clues": [true, true, true, true] },
-      { "item": "robot", "text": "A toy robot moves, but it does not eat or grow. <b>Non-living.</b>", "say": "A toy robot can move. But it does not eat, breathe or grow. A robot is non-living.", "clues": [false, false, false, false] }
+      {
+        "item": "cat",
+        "text": "A cat eats, breathes and grows. <b>Living!</b>",
+        "say": "A cat eats. It breathes. It grows. It has kittens. A cat is living!",
+        "clues": [true, true, true, true]
+      },
+      {
+        "item": "teddy",
+        "text": "A teddy bear does not eat or grow. <b>Non-living.</b>",
+        "say": "A teddy bear does not eat. It does not breathe. It does not grow. A teddy bear is non-living.",
+        "clues": [false, false, false, false]
+      },
+      {
+        "item": "plant",
+        "text": "A plant cannot walk, but it drinks and grows. <b>Living!</b>",
+        "say": "A plant cannot walk. But it drinks water, it breathes, and it grows. A plant is living!",
+        "clues": [true, true, true, true]
+      },
+      {
+        "item": "robot",
+        "text": "A toy robot moves, but it does not eat or grow. <b>Non-living.</b>",
+        "say": "A toy robot can move. But it does not eat, breathe or grow. A robot is non-living.",
+        "clues": [false, false, false, false]
+      }
     ],
     "items": [
       { "id": "cat", "icon": "🐱", "name": "cat", "bin": "living", "why": "A cat eats, breathes and grows." },

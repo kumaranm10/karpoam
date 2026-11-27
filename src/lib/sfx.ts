@@ -8,14 +8,22 @@ function tone(freqs: number[], type: OscillatorType = 'sine', gap = 0.1, len = 0
     ctx = ctx ?? new AC();
     const t = ctx.currentTime;
     freqs.forEach((f, i) => {
-      const o = ctx!.createOscillator(), g = ctx!.createGain(), s = t + i * gap;
-      o.type = type; o.frequency.value = f;
+      const o = ctx!.createOscillator(),
+        g = ctx!.createGain(),
+        s = t + i * gap;
+      o.type = type;
+      o.frequency.value = f;
       g.gain.setValueAtTime(0.0001, s);
       g.gain.exponentialRampToValueAtTime(vol, s + 0.02);
       g.gain.exponentialRampToValueAtTime(0.0001, s + len);
-      o.connect(g); g.connect(ctx!.destination); o.start(s); o.stop(s + len + 0.05);
+      o.connect(g);
+      g.connect(ctx!.destination);
+      o.start(s);
+      o.stop(s + len + 0.05);
     });
-  } catch { /* no audio */ }
+  } catch {
+    /* no audio */
+  }
 }
 
 export const ding = () => tone([660, 880]);
