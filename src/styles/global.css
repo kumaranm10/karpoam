@@ -57,11 +57,6 @@
     --sec-lessons-bg: #13231b;
     --sec-how-bg: #271d16;
     --sec-foot-bg: #0f1117;
-    --sec-hero-bg: #1e1c17;
-    --sec-subjects-bg: #151c2e;
-    --sec-lessons-bg: #13231b;
-    --sec-how-bg: #271d16;
-    --sec-foot-bg: #0f1117;
     --card: #232838;
     --line: #353b52;
     --grid: rgba(130, 160, 255, 0.06);
@@ -89,6 +84,11 @@
 :root[data-theme="dark"] {
   --page: #14161f;
   --paper: #1c2030;
+  --sec-hero-bg: #1e1c17;
+  --sec-subjects-bg: #151c2e;
+  --sec-lessons-bg: #13231b;
+  --sec-how-bg: #271d16;
+  --sec-foot-bg: #0f1117;
   --card: #232838;
   --line: #353b52;
   --grid: rgba(130, 160, 255, 0.06);

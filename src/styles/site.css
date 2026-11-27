@@ -161,10 +161,6 @@ main {
 main:has(> .band) {
   padding-block: 0;
 }
-main:has(> .band:last-child) + .site-foot {
-  margin-top: 0;
-  border-top: 0;
-}
 
 /* home hero */
 .hero {
@@ -638,6 +634,11 @@ main:has(> .band:last-child) + .site-foot {
   background: var(--sec-foot-bg);
   padding-block: 28px;
   margin-top: 40px;
+}
+/* home page: the footer band follows the last section band with no gap */
+main:has(> .band:last-child) + .site-foot {
+  margin-top: 0;
+  border-top: 0;
 }
 .foot-grid {
   display: grid;
