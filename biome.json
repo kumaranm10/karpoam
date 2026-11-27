@@ -11,7 +11,8 @@
       "!**/playwright-report",
       "!**/.lighthouseci",
       "!**/*.astro",
-      "!package-lock.json"
+      "!package-lock.json",
+      "!**/*.md"
     ]
   },
   "formatter": {

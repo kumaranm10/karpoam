@@ -72,7 +72,8 @@ jobs:
         with: { node-version-file: .nvmrc }
       - uses: actions/download-artifact@v7
         with: { name: dist, path: dist }
+      # Best of 3 runs per page (shared CI machines are noisy on the first, cold run).
       - run: npx --yes @lhci/cli@0.16.1 autorun
       - uses: actions/upload-artifact@v6
         if: always()
-        with: { name: lighthouse, path: .lighthouseci, retention-days: 7 }
+        with: { name: lighthouse, path: .lighthouseci, retention-days: 7, include-hidden-files: true }
