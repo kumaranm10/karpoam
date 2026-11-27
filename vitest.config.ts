@@ -7,7 +7,7 @@ export default defineConfig({
     restoreMocks: true,
     coverage: {
       provider: 'v8',
-      include: ['src/lib/**/*.ts', 'src/widgets/**/*.ts', 'scripts/lesson-rules.mjs'],
+      include: ['src/lib/**/*.ts', 'src/widgets/**/*.ts', 'scripts/lesson-rules.mjs', 'scripts/agent/decide.mjs', 'scripts/agent/review.mjs'],
       reporter: ['text-summary', 'text', 'json-summary'],
       thresholds: { lines: 80, statements: 80, functions: 80, branches: 70 },
     },

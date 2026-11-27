@@ -76,10 +76,11 @@ Flow for every task:
 3. Before pushing: `npm run build` passes and each changed page is checked at 390px width.
 4. Open a PR using the template, with `Closes #<issue>`. Label `type:lesson` for lesson/text changes, `type:code` otherwise.
 5. The other agent family reviews (Claude ↔ Google). Max 3 review rounds; then label `needs-kumaran`.
-6. Merge: the **Auto-merge** workflow (`.github/workflows/automerge.yml`) turns on GitHub auto-merge, and GitHub merges when all required checks pass. Nobody presses merge, and agents must not merge or bypass rules themselves. Extra rules:
-   - `type:lesson` PRs also need Kumaran's `content-approved` label.
-   - PRs that change **gate files** (`.github/`, `scripts/`, tool configs, `package.json`, `AGENTS.md`, `CLAUDE.md`, `src/site.json`, `AdSlot.astro`) also need `gate-approved` — from the other agent family's review once M3 is live, from Kumaran until then.
-   - `hold` or `needs-kumaran` stops auto-merge.
+6. Merge: the **Agent gate** workflow (`.github/workflows/agent-gate.yml`, runs from `main`) reviews and decides. Nobody presses merge, and agents must never merge or bypass rules themselves. GitHub merges when all required checks pass **and**:
+   - the other agent family's review passed (commit status `agent-review` = success on the latest commit). Gemini reviews Claude's PRs now; Claude will review Google agents' PRs from M3.
+   - `type:lesson` / lesson files also need Kumaran's `content-approved` label.
+   - changes to the guards themselves (`agent-gate.yml`, `scripts/agent/`) also need Kumaran's `gate-approved` label.
+   - `hold` or `needs-kumaran` stops it. After 3 rounds of "changes requested" the gate adds `needs-kumaran`.
 7. If a check fails twice after your fixes, stop, label `needs-kumaran`, and explain in a comment.
 8. If the repo variable `AGENTS_ENABLED` is `false`, do nothing.
 

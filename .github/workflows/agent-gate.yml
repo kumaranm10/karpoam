@@ -1,0 +1,51 @@
+# Agent gate: cross-agent review + merge decision for every PR from this repo's own branches.
+# Uses pull_request_target, so it always runs the version on main, never code from the PR.
+# It reads the PR's diff as data only. Do NOT add a checkout of the PR head here.
+name: Agent gate
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review, labeled, unlabeled]
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  statuses: write
+concurrency:
+  group: agent-gate-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+jobs:
+  review:
+    name: Gemini review
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository && !github.event.pull_request.draft &&
+      vars.AGENTS_ENABLED != 'false' && github.event.pull_request.user.login != 'dependabot[bot]' &&
+      contains(fromJSON('["opened","reopened","synchronize","ready_for_review"]'), github.event.action)
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with: { node-version-file: .nvmrc }
+      - run: node scripts/agent/gemini-review.mjs
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+
+  merge:
+    name: Merge decision
+    needs: review
+    if: >-
+      always() && github.event.pull_request.head.repo.full_name == github.repository &&
+      !github.event.pull_request.draft && vars.AGENTS_ENABLED != 'false'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with: { node-version-file: .nvmrc }
+      - run: node scripts/agent/merge-gate.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
