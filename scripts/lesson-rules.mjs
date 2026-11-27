@@ -116,6 +116,29 @@ export function checkLessons(root) {
           });
           if (!isStr(P.ask) || !P.ask.includes('{name}')) err(f, '"ask" is required and must contain {name}');
         }
+        if (L.widget === 'listen-pick') {
+          const items = P.items ?? [];
+          if (!Array.isArray(items) || items.length < 4) err(f, 'listen-pick needs at least 4 items');
+          const ids = new Set(),
+            names = new Set(),
+            icons = new Set();
+          (Array.isArray(items) ? items : []).forEach((it, i) => {
+            for (const k of ['id', 'icon', 'name']) if (!isStr(it[k])) err(f, `items[${i}].${k} is required`);
+            if (ids.has(it.id)) err(f, `items id "${it.id}" is used twice`);
+            if (names.has(it.name)) err(f, `items name "${it.name}" is used twice; each sound needs one answer`);
+            if (icons.has(it.icon)) err(f, `items icon "${it.icon}" is used twice; each picture needs one answer`);
+            ids.add(it.id);
+            names.add(it.name);
+            icons.add(it.icon);
+            if (SUBJ.get(subject).lang === 'ta' && !isStr(it.audio)) warn(f, `items[${i}] has no "audio"; many phones have no Tamil voice`);
+          });
+          if (P.choices !== undefined && ![3, 4].includes(P.choices)) err(f, 'listen-pick choices must be 3 or 4');
+          if (Array.isArray(items) && P.choices > items.length) err(f, 'listen-pick choices cannot be more than the number of items');
+          (P.story ?? []).forEach((s, i) => {
+            if (!ids.has(s.item)) err(f, `story[${i}].item "${s.item}" is not an item id`);
+            if (!isStr(s.text)) err(f, `story[${i}].text is required`);
+          });
+        }
       }
     }
   }

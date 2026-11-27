@@ -41,7 +41,7 @@ describe('lesson rules', () => {
     const r = checkLessons(repo) as Result;
     expect(r.errors).toEqual([]);
     expect(r.count).toBeGreaterThanOrEqual(3);
-    expect(r.widgets.sort()).toEqual(['groups', 'place-value', 'sort']);
+    expect(r.widgets.sort()).toEqual(['groups', 'listen-pick', 'place-value', 'sort']);
   });
   it('accepts a correct lesson', () => {
     expect(run({ 'maths/p1/ok.json': good }).errors).toEqual([]);
@@ -87,5 +87,20 @@ describe('lesson rules', () => {
     expect(has(r, 'not one of the bins')).toBe(true);
     expect(has(r, 'needs at least 3 items')).toBe(true);
     expect(has(r, 'is not an item id')).toBe(true);
+  });
+  it('checks listen-pick settings', () => {
+    const it4 = ['a', 'b', 'c', 'd'].map((id, i) => ({ id, icon: ['🐱', '🐶', '🐟', '🐦'][i], name: id }));
+    const lp = (params: unknown) => ({ ...good, widget: 'listen-pick', params });
+    expect(run({ 'english/k2/ok.json': lp({ items: it4, choices: 4, story: [{ item: 'a', text: 'A' }] }) }).errors).toEqual([]);
+    expect(has(run({ 'english/k2/a.json': lp({ items: it4.slice(0, 3) }) }), 'at least 4 items')).toBe(true);
+    expect(has(run({ 'english/k2/a.json': lp({ items: [...it4, { ...it4[0], id: 'e' }] }) }), 'used twice')).toBe(true);
+    expect(has(run({ 'english/k2/a.json': lp({ items: [...it4.slice(1), { id: 'z', icon: '🐱', name: 'b' }] }) }), 'name "b" is used twice')).toBe(true);
+    expect(has(run({ 'english/k2/a.json': lp({ items: [...it4, { id: 'e', icon: '🐱', name: 'e' }] }) }), 'icon "🐱" is used twice')).toBe(true);
+    expect(has(run({ 'english/k2/a.json': lp({ items: [...it4, { id: 'e', icon: '🦆' }] }) }), 'items[4].name')).toBe(true);
+    expect(has(run({ 'english/k2/a.json': lp({ items: it4, choices: 5 }) }), 'choices must be 3 or 4')).toBe(true);
+    expect(has(run({ 'english/k2/a.json': lp({ items: it4, story: [{ item: 'x' }] }) }), 'is not an item id')).toBe(true);
+    expect(has(run({ 'english/k2/a.json': lp({ items: it4, story: [{ item: 'a' }] }) }), 'story[0].text')).toBe(true);
+    const ta = run({ 'tamil/k2/a.json': { ...lp({ items: it4 }), title: 'அ' } });
+    expect(ta.warnings.some((w) => w.includes('no "audio"'))).toBe(true);
   });
 });

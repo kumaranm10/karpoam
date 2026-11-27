@@ -29,6 +29,7 @@ Run `npm run check` after every edit. It tells you exactly what is wrong.
 | `sort`        | Any "which group?" idea: living/non-living, float/sink, vowels/consonants, odd/even, Tamil letter types | `bins`, `ask`, `items`, `story`, optional `clues`, `intro`, titles (see below) |
 | `place-value` | Tens and ones (ice-cream stick bundles, $10/$1)                                                         | `target` (21–99, not ending in 0)                                              |
 | `groups`      | Multiplication as equal groups / repeated addition                                                      | `n` (in each group, 2–6), `k` (groups, 2–6)                                    |
+| `listen-pick` | Hear a word or sound, tap the matching picture or letter: letter sounds, Tamil letters, animal sounds   | `items` (≥ 4), optional `choices`, `story`, `intro`, `ask`, `quiz` (see below)  |
 
 ### `sort` params in detail
 
@@ -51,6 +52,27 @@ Run `npm run check` after every edit. It tells you exactly what is wrong.
 - `story`: 3–5 examples, including at least one **surprising** one (robot moves but is non-living; a big log floats).
 - `story[].clues`: one `true`/`false` per entry in `clues`.
 - For Tamil, write `name`, `why`, `text`, `say` in Tamil and add `"audio": "/audio/ta/<lesson>/<id>.mp3"` per item.
+
+### `listen-pick` params in detail
+
+```json
+{
+  "choices": 4,
+  "intro": { "text": "Listen to each word.", "say": "Listen to each word, then find its picture." },
+  "story": [{ "item": "cat", "text": "<b>c</b> for <b>cat</b>.", "say": "C is for cat." }],
+  "ask": "Listen. Tap the one you hear.",
+  "quiz": "Which one did you hear?",
+  "items": [{ "id": "cat", "icon": "🐱", "name": "cat", "say": "cat", "why": "Cat starts with c." }]
+}
+```
+
+- The child hears an item's word (its `audio` MP3 first, else the voice reads `say`, else `name`) and taps its picture.
+- `icon` is the picture: an emoji, or a letter (`"அ"`, `"b"`). Each `icon` and each `name` must be different, so only one picture fits each sound.
+- At least 4 items; 6–12 keeps "Try" interesting. `choices` is 3 or 4 (default 4).
+- `name` is shown as a hint after one wrong try, and straight away when sound is off, so the game works without sound.
+- `why` (optional, ≤ 12 words) is shown and read after each quiz answer; add `whyAudio` for Tamil.
+- `story`: 3–5 examples; without it the See step shows the first 3 items. `story[].audio` plays a recorded caption first.
+- For Tamil, write `name`, `why`, `text`, `say`, `ask`, `quiz` in Tamil and add `"audio": "/audio/ta/<lesson>/<id>.mp3"` per item (the gate warns when one is missing).
 
 ## Writing checklist (the reviewer will check every line)
 
