@@ -2,9 +2,11 @@
 import Base from '../layouts/Base.astro';
 import LessonCard from '../components/LessonCard.astro';
 import AdSlot from '../components/AdSlot.astro';
-import { SITE, SUBJECTS, readyLessons } from '../config';
+import { SITE, SUBJECTS, LEVELS, readyLessons, subjectById } from '../config';
+import { homeLessons } from '../lib/home';
 const lessons = readyLessons();
 const count = (id: string) => lessons.filter((l) => l.subject === id).length;
+const home = homeLessons(lessons, LEVELS.map((l) => l.id));
 ---
 <Base title={SITE.name}>
   <div class="wrap">
@@ -45,7 +47,18 @@ const count = (id: string) => lessons.filter((l) => l.subject === id).length;
 
     <section class="section" aria-labelledby="new-h">
       <h2 id="new-h">Lessons to try</h2>
-      <div class="lgrid">{lessons.map((l) => <LessonCard lesson={l} showSubject />)}</div>
+      <div class="lgrid">
+        {home.lessons.map((l) => <LessonCard lesson={l} showSubject />)}
+        {home.seeAll.map((a) => (
+          <a class="lcard" href={`/${a.subject}/`} data-subject={a.subject} data-see-all>
+            <span class="lc-icon" aria-hidden="true">{subjectById(a.subject).icon}</span>
+            <span class="lc-body">
+              <span class="lc-meta">{subjectById(a.subject).name}</span>
+              <span class="lc-title">See all {a.total} lessons →</span>
+            </span>
+          </a>
+        ))}
+      </div>
     </section>
 
     <section class="section" aria-labelledby="how-h">
