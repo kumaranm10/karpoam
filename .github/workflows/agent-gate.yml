@@ -5,13 +5,16 @@ name: Agent gate
 on:
   pull_request_target:
     types: [opened, reopened, synchronize, ready_for_review, labeled, unlabeled]
+  # Claude's review comments on Google-lane PRs (gemini/…, antigravity/…). Runs from main like the rest.
+  issue_comment:
+    types: [created]
 permissions:
   contents: write
   pull-requests: write
   issues: write
   statuses: write
 concurrency:
-  group: agent-gate-${{ github.event.pull_request.number }}
+  group: agent-gate-${{ github.event.pull_request.number || github.event.issue.number }}
   cancel-in-progress: false
 jobs:
   review:
@@ -19,6 +22,7 @@ jobs:
     if: >-
       github.event.pull_request.head.repo.full_name == github.repository && !github.event.pull_request.draft &&
       vars.AGENTS_ENABLED != 'false' && github.event.pull_request.user.login != 'dependabot[bot]' &&
+      !startsWith(github.event.pull_request.head.ref, 'gemini/') && !startsWith(github.event.pull_request.head.ref, 'antigravity/') &&
       contains(fromJSON('["opened","reopened","synchronize","ready_for_review"]'), github.event.action)
     runs-on: ubuntu-latest
     timeout-minutes: 8
@@ -40,6 +44,47 @@ jobs:
           PR: ${{ github.event.pull_request.number }}
           SHA: ${{ github.event.pull_request.head.sha }}
 
+  # Google agents' PRs are reviewed by Claude (cross-family), never by Gemini itself.
+  google-pending:
+    name: Waiting for Claude review
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository && vars.AGENTS_ENABLED != 'false' &&
+      (startsWith(github.event.pull_request.head.ref, 'gemini/') || startsWith(github.event.pull_request.head.ref, 'antigravity/')) &&
+      contains(fromJSON('["opened","reopened","synchronize","ready_for_review"]'), github.event.action)
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: New commit, so auto-merge off and review pending until Claude reviews this exact commit
+        run: |
+          gh pr merge "$PR" --repo "$GITHUB_REPOSITORY" --disable-auto || true
+          gh api -X POST "repos/$GITHUB_REPOSITORY/statuses/$SHA" -f state=pending -f context=agent-review -f description="Waiting for Claude review"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+
+  claude-review:
+    name: Claude review verdict
+    if: >-
+      github.event_name == 'issue_comment' && github.event.issue.pull_request && vars.AGENTS_ENABLED != 'false' &&
+      github.event.comment.performed_via_github_app.slug == 'claude' && contains(github.event.comment.body, '<!-- claude-review -->')
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with: { node-version-file: .nvmrc }
+      - run: node scripts/agent/claude-verdict.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.issue.number }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+      - run: node scripts/agent/merge-gate.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.issue.number }}
+
   bot-review:
     name: Dependabot review
     # Dependabot updates get no Gemini key (GitHub withholds secrets); CI and npm audit check them instead.
@@ -58,7 +103,7 @@ jobs:
 
   merge:
     name: Merge decision
-    needs: [review, bot-review]
+    needs: [review, google-pending, bot-review]
     if: >-
       always() && github.event.pull_request.head.repo.full_name == github.repository &&
       !github.event.pull_request.draft && vars.AGENTS_ENABLED != 'false'

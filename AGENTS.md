@@ -67,7 +67,7 @@ Agents (see the ops repo `karpoam-ops` for roadmap, status and decisions):
 | Agent               | Runs on                                         | Label it picks up   | Main jobs                                                  |
 | ------------------- | ----------------------------------------------- | ------------------- | ---------------------------------------------------------- |
 | Claude              | GitHub Actions (cloud)                          | `agent:claude`      | code, widgets, tests, planning, reviews Google agents' PRs |
-| Gemini (cloud lane) | GitHub Actions (cloud)                          | `agent:gemini`      | PR reviews, design proposals (`type:design`), triage       |
+| Gemini (cloud lane) | GitHub Actions (cloud), free API key            | `agent:gemini`      | lessons (`gemini-builder.yml`), PR reviews, design proposals |
 | Antigravity (`agy`) | Kumaran's computer (self-hosted runner, Docker) | `agent:antigravity` | lessons, Tamil content, bigger tasks, reviews Claude's PRs |
 
 Flow for every task:
@@ -78,7 +78,7 @@ Flow for every task:
 4. Open a PR using the template, with `Closes #<issue>`. Label `type:lesson` for lesson/text changes, `type:code` otherwise.
 5. The other agent family reviews (Claude ↔ Google). Max 3 review rounds; then label `needs-kumaran`.
 6. Merge: the **Agent gate** workflow (`.github/workflows/agent-gate.yml`, runs from `main`) reviews and decides. Nobody presses merge, and agents must never merge or bypass rules themselves. GitHub merges when all required checks pass **and**:
-   - the other agent family's review passed (commit status `agent-review` = success on the latest commit). Gemini reviews Claude's PRs now; Claude will review Google agents' PRs from M3.
+   - the other agent family's review passed (commit status `agent-review` = success on the latest commit). Gemini reviews Claude's PRs. Claude reviews Google agents' PRs (branches `gemini/…`, `antigravity/…`): a comment via the Claude app with `<!-- claude-review -->`, `Verdict: approve|changes` and `sha: <head sha>`; the gate turns it into `agent-review` (`scripts/agent/claude-verdict.mjs`).
    - `type:lesson` / lesson files also need Kumaran's `content-approved` label.
    - changes to the guards themselves (`agent-gate.yml`, `scripts/agent/`) also need Kumaran's `gate-approved` label.
    - `hold` or `needs-kumaran` stops it. After 3 rounds of "changes requested" the gate adds `needs-kumaran`.
