@@ -23,6 +23,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
+      # A new commit has not been reviewed yet: switch auto-merge off at once, before anything else.
+      - name: Turn auto-merge off until this commit is reviewed
+        run: gh pr merge "$PR" --repo "$GITHUB_REPOSITORY" --disable-auto || true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with: { node-version-file: .nvmrc }
@@ -33,9 +39,25 @@ jobs:
           PR: ${{ github.event.pull_request.number }}
           SHA: ${{ github.event.pull_request.head.sha }}
 
+  bot-review:
+    name: Dependabot review
+    # Dependabot updates get no Gemini key (GitHub withholds secrets); CI and npm audit check them instead.
+    if: >-
+      github.event.pull_request.user.login == 'dependabot[bot]' && vars.AGENTS_ENABLED != 'false' &&
+      contains(fromJSON('["opened","reopened","synchronize","ready_for_review"]'), github.event.action)
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - run: >-
+          gh api -X POST "repos/$GITHUB_REPOSITORY/statuses/$SHA" -f state=success -f context=agent-review
+          -f description="Dependabot update: covered by CI, npm audit and CodeQL"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+
   merge:
     name: Merge decision
-    needs: review
+    needs: [review, bot-review]
     if: >-
       always() && github.event.pull_request.head.repo.full_name == github.repository &&
       !github.event.pull_request.draft && vars.AGENTS_ENABLED != 'false'
