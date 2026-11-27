@@ -8,6 +8,8 @@ export function getStaticPaths() {
 }
 const { lesson } = Astro.props as { lesson: Lesson };
 const s = subjectById(lesson.subject), lv = levelById(lesson.level);
+/** Tamil titles show only on Tamil lessons; every other page is English only. */
+const showTamilTitle = Boolean(lesson.titleTamil) && s.lang === 'ta';
 const more = readyLessons().filter((l) => l.subject === lesson.subject && l.slug !== lesson.slug).slice(0, 3);
 ---
 <Base title={`${lesson.title} · ${s.name} ${lv.name}`} description={lesson.hook} subject={s.id} noindex={lesson.status !== 'ready'}>
@@ -16,7 +18,7 @@ const more = readyLessons().filter((l) => l.subject === lesson.subject && l.slug
     <div class="lesson-head" style="margin-top:12px">
       <span class="lesson-icon" aria-hidden="true">{lesson.icon}</span>
       <div class="stack" style="gap:8px">
-        <h1>{lesson.title}{lesson.titleTamil && s.lang === 'ta' && <span class="ta muted" lang="ta" style="font-size:.55em"> · {lesson.titleTamil}</span>}</h1>
+        <h1>{lesson.title}{showTamilTitle && <span class="ta muted" lang="ta" style="font-size:.55em"> · {lesson.titleTamil}</span>}</h1>
         <p class="lede">{lesson.hook}</p>
         <div class="chips" aria-label="Real-life examples">{lesson.realLife.map((r) => <span class="chip">{r}</span>)}</div>
       </div>
