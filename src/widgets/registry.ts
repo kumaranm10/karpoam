@@ -12,6 +12,7 @@ export type Mount = (root: HTMLElement, params: Record<string, any>, ctx: Widget
 
 export const widgets: Record<string, () => Promise<{ default: Mount }>> = {
   groups: () => import('./groups'),
+  'listen-pick': () => import('./listen-pick'),
   'place-value': () => import('./place-value'),
   sort: () => import('./sort'),
 };

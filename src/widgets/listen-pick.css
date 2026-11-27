@@ -1,0 +1,106 @@
+/* Listen-pick: hear a word, tap the matching picture or letter. Fully data-driven. */
+.lp-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+.lp-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border: 3px solid var(--line);
+  border-radius: 22px;
+  padding: 14px 22px;
+  min-width: 150px;
+  box-shadow: var(--shadow);
+}
+.lp-card.in {
+  animation: dropin 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+.lp-icon {
+  font-size: 84px;
+  line-height: 1;
+  font-family: var(--display);
+  font-weight: 700;
+}
+.lp-name {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 26px;
+}
+.lp-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  min-height: 40px;
+}
+.lp-row .lp-icon {
+  font-size: 36px;
+}
+.lp-hint {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 24px;
+  min-height: 1.4em;
+  padding: 2px 14px;
+  border-radius: 999px;
+}
+.lp-hint.on {
+  background: var(--card);
+  border: 2px dashed var(--accent);
+}
+.lp-opts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+}
+.lp-opt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 112px;
+  padding: 10px;
+  border-radius: 18px;
+  border: 3px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.lp-opt:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+.lp-opt.good {
+  border-color: var(--good);
+}
+.lp-opt.bad {
+  border-color: var(--bad);
+  opacity: 0.55;
+}
+.lp-opt .lp-icon {
+  font-size: 64px;
+}
+.lp-qopts .lp-opt {
+  flex-direction: column;
+  min-width: 120px;
+}
+.lp-qopts .lp-icon {
+  font-size: 56px;
+}
+.lp-progress {
+  color: var(--muted);
+  font-family: var(--display);
+  font-weight: 500;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp-card.in {
+    animation: none;
+  }
+}
