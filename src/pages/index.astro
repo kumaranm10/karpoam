@@ -35,7 +35,6 @@ const count = (id: string) => lessons.filter((l) => l.subject === id).length;
           <a class="stile" href={`/${s.id}/`} data-subject={s.id}>
             <span class="stile-icon" aria-hidden="true">{s.icon}</span>
             <span class="stile-name">{s.name}</span>
-            <span class="stile-ta ta" lang="ta">{s.tamil}</span>
             <span class="stile-blurb">{s.blurb}</span>
             <span class="stile-count">{count(s.id) ? `${count(s.id)} ${count(s.id) === 1 ? 'lesson' : 'lessons'} →` : 'Coming soon'}</span>
           </a>

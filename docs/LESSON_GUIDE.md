@@ -9,7 +9,7 @@ If the widget you need already exists, a new lesson needs **no code at all**.
 | Field        | Required | Meaning                                                    |
 | ------------ | -------- | ---------------------------------------------------------- |
 | `title`      | yes      | Short name, e.g. "Tens and ones"                           |
-| `titleTamil` | no       | Tamil title, shown beside it                               |
+| `titleTamil` | no       | Tamil lessons only: Tamil title, shown beside it           |
 | `order`      | yes      | Sort order inside its level (10, 20, 30… leaves gaps)      |
 | `icon`       | yes      | One emoji or one Tamil letter                              |
 | `hook`       | yes      | One sentence (< 140 chars) a parent reads on the card      |

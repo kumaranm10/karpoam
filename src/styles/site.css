@@ -268,10 +268,6 @@ main {
   font-weight: 700;
   font-size: 24px;
 }
-.stile-ta {
-  font-size: 14px;
-  color: var(--muted);
-}
 .stile-blurb {
   color: var(--muted);
   font-size: 15px;

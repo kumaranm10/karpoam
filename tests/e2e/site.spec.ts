@@ -15,6 +15,16 @@ async function noSideScroll(page: Page) {
   const { sw, cw } = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
   expect(sw, 'page scrolls sideways').toBeLessThanOrEqual(cw + 1);
 }
+/** Tamil script is only for Tamil pages and the logo (Kumaran, 27 Nov). Decorative aria-hidden icons are pictures, not text. */
+async function tamilOnlyWhereAllowed(page: Page, url: string) {
+  if (url.startsWith('/tamil/')) return;
+  const text = await page.evaluate(() => {
+    const body = document.body.cloneNode(true) as HTMLElement;
+    for (const el of body.querySelectorAll('.brand, [aria-hidden="true"]')) el.remove();
+    return body.textContent ?? '';
+  });
+  expect(text.match(/[\u0B80-\u0BFF]+/g) ?? [], `Tamil text on ${url}`).toEqual([]);
+}
 async function noSeriousA11yIssues(page: Page) {
   // axe ships its own playwright-core types; the runtime object is the same page.
   type AxePage = ConstructorParameters<typeof AxeBuilder>[0]['page'];
@@ -30,6 +40,7 @@ for (const url of listUrls) {
     expect(res?.status()).toBe(200);
     await expect(page.locator('h1')).toHaveCount(1);
     await noSideScroll(page);
+    await tamilOnlyWhereAllowed(page, url);
     await noSeriousA11yIssues(page);
     expect(errors).toEqual([]);
   });
@@ -39,6 +50,7 @@ for (const url of lessonUrls) {
   test(`lesson ${url} works end to end`, async ({ page }) => {
     const errors = watchErrors(page);
     await page.goto(url);
+    await tamilOnlyWhereAllowed(page, url);
     const steps = page.locator('#lesson > section.step');
     await expect(steps).toHaveCount(await steps.count());
     expect(await steps.count()).toBeGreaterThanOrEqual(3);
