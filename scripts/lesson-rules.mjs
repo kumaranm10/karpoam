@@ -92,6 +92,8 @@ export function checkLessons(root) {
         if (L.widget === 'groups')
           for (const k of ['n', 'k'])
             if (P[k] !== undefined && !(Number.isInteger(P[k]) && P[k] >= 2 && P[k] <= 6)) err(f, `groups ${k} must be a whole number 2–6`);
+        if (L.widget === 'bonds' && P.whole !== undefined && !(Number.isInteger(P.whole) && P.whole >= 5 && P.whole <= 10))
+          err(f, 'bonds whole must be a whole number 5–10');
         if (L.widget === 'sort') {
           const bins = P.bins ?? [],
             items = P.items ?? [];

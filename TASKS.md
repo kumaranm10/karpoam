@@ -19,8 +19,8 @@ Target before applying for AdSense: **12+ ready lessons across all 4 subjects.**
 
 ## Widgets (claude)
 
-- [ ] **C-3** claude — Widget `listen-pick`: hear a word or sound, tap the matching picture/letter (3–4 choices). Supports `audio` files and Tamil. Needed by G-5 and G-6.
-- [ ] **C-4** claude — Widget `bonds`: number bonds (part-part-whole) with real objects, e.g. 7 sweets in two hands. Then lesson Maths K2/P1 "Number bonds to 10".
+- [x] **C-3** claude — Widget `listen-pick`: hear a word or sound, tap the matching picture/letter (3–4 choices). Supports `audio` files and Tamil. Needed by G-5 and G-6.
+- [x] **C-4** claude — Widget `bonds`: number bonds (part-part-whole) with real objects, e.g. 7 sweets in two hands. Then lesson Maths K2/P1 "Number bonds to 10".
 - [ ] **C-5** claude — Widget `count`: tap to count real objects 1–20 (one tap = one object lights up). Then lesson Maths K2 "Count to 20".
 - [ ] **C-6** claude — Review every gemini PR: counts, facts, phone layout, voice.
 

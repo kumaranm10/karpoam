@@ -1,0 +1,21 @@
+{
+  "title": "Number bonds to 10",
+  "order": 10,
+  "icon": "🍬",
+  "hook": "Share 7 sweets between two hands: 3 and 4, or 2 and 5. The parts change, the whole stays 7.",
+  "realLife": ["sweets in two hands", "fingers on two hands", "grapes on two plates"],
+  "widget": "bonds",
+  "params": { "whole": 7 },
+  "atHome": [
+    { "thing": "7 raisins or small sweets", "ask": "Hide some in one hand. “There are 7 altogether. 3 are here. How many in my other hand?”" },
+    { "thing": "Fingers on two hands", "ask": "“Show me 10 fingers. Fold down 4. How many are still up?” Then: “4 and 6 make 10.”" },
+    { "thing": "8 grapes and two plates", "ask": "“Share 8 grapes on two plates. How many different ways can you find?”" },
+    { "thing": "Shoes at the door", "ask": "“There are 6 shoes. 2 are Papa’s. How many are not?”" }
+  ],
+  "tips": [
+    "Say it the school way: “3 and 4 make 7. 7 is the whole. 3 and 4 are the parts.”",
+    "Move one thing at a time, so your child sees the whole does not change.",
+    "Bonds of 10 are worth knowing by heart: 1 and 9, 2 and 8, 3 and 7, 4 and 6, 5 and 5."
+  ],
+  "status": "ready"
+}
