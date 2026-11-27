@@ -14,6 +14,7 @@ export default defineConfig({
         'scripts/agent/decide.mjs',
         'scripts/agent/review.mjs',
         'scripts/design/prompt.mjs',
+        'scripts/gemini-lesson/lesson-prompt.mjs',
       ],
       reporter: ['text-summary', 'text', 'json-summary'],
       thresholds: { lines: 80, statements: 80, functions: 80, branches: 70 },

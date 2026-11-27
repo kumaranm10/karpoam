@@ -1,0 +1,38 @@
+# Gemini lesson builder (Google lane, cloud, free API key). Every 3 hours, and when a lesson issue gets
+# `agent:gemini`, Gemini writes the lesson JSON for an existing widget, the lesson gate checks it, and a PR
+# opens (Claude reviews it; Kumaran approves the preview). It also reworks its open PRs after review.
+# Pushes and PRs use KARPOAM_BOT_TOKEN so CI and the Agent gate run (GITHUB_TOKEN PRs start no workflows).
+name: Gemini builder
+on:
+  schedule:
+    - cron: "23 */3 * * *"
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: Only this issue number (optional)
+        required: false
+permissions:
+  contents: read
+concurrency:
+  group: gemini-builder
+  cancel-in-progress: false
+jobs:
+  build:
+    name: Gemini writes lessons
+    if: >-
+      vars.AGENTS_ENABLED != 'false' && (github.event_name != 'issues' ||
+      (github.event.label.name == 'agent:gemini' && contains(github.event.issue.labels.*.name, 'type:lesson')))
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false, fetch-depth: 0 }
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with: { node-version-file: .nvmrc }
+      - run: node scripts/gemini-lesson/build.mjs
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ secrets.KARPOAM_BOT_TOKEN }}
+          ISSUE: ${{ inputs.issue || (github.event_name == 'issues' && github.event.issue.number) || '' }}
