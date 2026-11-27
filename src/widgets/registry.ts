@@ -11,6 +11,7 @@ export interface WidgetCtx {
 export type Mount = (root: HTMLElement, params: Record<string, any>, ctx: WidgetCtx) => void;
 
 export const widgets: Record<string, () => Promise<{ default: Mount }>> = {
+  bonds: () => import('./bonds'),
   groups: () => import('./groups'),
   'listen-pick': () => import('./listen-pick'),
   'place-value': () => import('./place-value'),

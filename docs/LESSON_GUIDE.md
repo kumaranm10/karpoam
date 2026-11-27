@@ -29,6 +29,7 @@ Run `npm run check` after every edit. It tells you exactly what is wrong.
 | `sort`        | Any "which group?" idea: living/non-living, float/sink, vowels/consonants, odd/even, Tamil letter types | `bins`, `ask`, `items`, `story`, optional `clues`, `intro`, titles (see below) |
 | `place-value` | Tens and ones (ice-cream stick bundles, $10/$1)                                                         | `target` (21–99, not ending in 0)                                              |
 | `groups`      | Multiplication as equal groups / repeated addition                                                      | `n` (in each group, 2–6), `k` (groups, 2–6)                                    |
+| `bonds`       | Number bonds (part-part-whole): sweets shared between two hands, "7 = 3 + ?"                            | `whole` (5–10, default 7)                                                      |
 | `listen-pick` | Hear a word or sound, tap the matching picture or letter: letter sounds, Tamil letters, animal sounds   | `items` (≥ 4), optional `choices`, `story`, `intro`, `ask`, `quiz` (see below)  |
 
 ### `sort` params in detail
@@ -52,6 +53,16 @@ Run `npm run check` after every edit. It tells you exactly what is wrong.
 - `story`: 3–5 examples, including at least one **surprising** one (robot moves but is non-living; a big log floats).
 - `story[].clues`: one `true`/`false` per entry in `clues`.
 - For Tamil, write `name`, `why`, `text`, `say` in Tamil and add `"audio": "/audio/ta/<lesson>/<id>.mp3"` per item.
+
+### `bonds` params in detail
+
+```json
+{ "whole": 7 }
+```
+
+- See: count `whole` sweets, share them into two hands, the bond picture shows whole on top and parts below; one sweet moves and the whole stays the same.
+- Try: the child taps a sweet to move it to the other hand and finds every way to make the number (2–10 with the stepper).
+- Check: mixed questions with wholes up to 10: "7 = 3 + ?" (one hand closed) and "3 and 4 make ?". Every count comes from the sweets drawn.
 
 ### `listen-pick` params in detail
 

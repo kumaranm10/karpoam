@@ -13,7 +13,7 @@ function host(widget: string, params: unknown) {
 
 describe('registry', () => {
   it('lists the four widgets', () => {
-    expect(Object.keys(widgets).sort()).toEqual(['groups', 'listen-pick', 'place-value', 'sort']);
+    expect(Object.keys(widgets).sort()).toEqual(['bonds', 'groups', 'listen-pick', 'place-value', 'sort']);
   });
   it('mounts a known widget from data attributes', async () => {
     const el = host('sort', lesson.params);

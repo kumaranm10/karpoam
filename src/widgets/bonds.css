@@ -1,0 +1,192 @@
+/* Number bonds: sweets in two hands + the part-part-whole picture. */
+.bo-hands {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-width: 460px;
+}
+.bo-hand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  background: var(--plate);
+  border: 3px solid var(--rim);
+  border-radius: 22px;
+  padding: 8px 6px 12px;
+  min-height: 150px;
+}
+.bo-hand.bo-closed {
+  border-style: dashed;
+  border-color: var(--accent);
+}
+.bo-palm {
+  font-size: 40px;
+  line-height: 1;
+}
+.bo-flip {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+.bo-sweets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  gap: 4px;
+  min-height: 52px;
+  width: 100%;
+}
+.bo-sweet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  transition: transform 0.25s;
+}
+.bo-tap {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+}
+.bo-tap:hover {
+  border-color: var(--accent);
+}
+.bo-lit {
+  transform: scale(1.45);
+}
+.bo-q {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 44px;
+  color: var(--accent);
+}
+.bo-bowl {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  max-width: 300px;
+  padding: 14px 18px;
+  background: var(--plate);
+  border: 3px solid var(--rim);
+  border-radius: 0 0 120px 120px;
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+.bo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.bo-bond {
+  position: relative;
+  width: 220px;
+  height: 170px;
+  flex: none;
+}
+.bo-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.bo-lines line {
+  stroke: var(--muted);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.bo-c {
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 34px;
+  font-variant-numeric: tabular-nums;
+  border: 4px solid var(--rim);
+}
+.bo-w {
+  left: 76px;
+  top: 0;
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
+}
+.bo-a,
+.bo-b {
+  top: 100px;
+  background: var(--one);
+  color: var(--one-ink);
+  border-color: var(--one);
+}
+.bo-a {
+  left: 12px;
+}
+.bo-b {
+  left: 140px;
+}
+.bo-c.bo-hid {
+  background: var(--paper);
+  color: var(--ink);
+  border-style: dashed;
+  border-color: var(--accent);
+}
+.bo-hl .bo-w {
+  box-shadow:
+    0 0 0 6px var(--paper),
+    0 0 0 10px var(--one);
+}
+.bo-eq {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(28px, 6vw, 40px);
+  font-variant-numeric: tabular-nums;
+}
+.bo-pa,
+.bo-pb {
+  color: var(--one-text);
+}
+.bo-found {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.bo-chip {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 18px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 2px dashed var(--line);
+  color: var(--muted);
+}
+.bo-chip.bo-got {
+  border-style: solid;
+  border-color: var(--good);
+  color: var(--good);
+}
+.bo-chip.bo-now {
+  background: var(--card);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bo-sweet {
+    transition: none;
+  }
+}

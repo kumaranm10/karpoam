@@ -41,7 +41,7 @@ describe('lesson rules', () => {
     const r = checkLessons(repo) as Result;
     expect(r.errors).toEqual([]);
     expect(r.count).toBeGreaterThanOrEqual(3);
-    expect(r.widgets.sort()).toEqual(['groups', 'listen-pick', 'place-value', 'sort']);
+    expect(r.widgets.sort()).toEqual(['bonds', 'groups', 'listen-pick', 'place-value', 'sort']);
   });
   it('accepts a correct lesson', () => {
     expect(run({ 'maths/p1/ok.json': good }).errors).toEqual([]);
@@ -73,6 +73,9 @@ describe('lesson rules', () => {
   it('checks widget settings', () => {
     expect(has(run({ 'maths/p1/a.json': { ...good, params: { target: 70 } } }), 'place-value target')).toBe(true);
     expect(has(run({ 'maths/p2/a.json': { ...good, widget: 'groups', params: { n: 9 } } }), 'groups n')).toBe(true);
+    expect(has(run({ 'maths/p1/a.json': { ...good, widget: 'bonds', params: { whole: 12 } } }), 'bonds whole')).toBe(true);
+    expect(has(run({ 'maths/p1/a.json': { ...good, widget: 'bonds', params: { whole: 4.5 } } }), 'bonds whole')).toBe(true);
+    expect(run({ 'maths/p1/a.json': { ...good, widget: 'bonds', params: { whole: 10 } } }).errors).toEqual([]);
     const bins = [
       { id: 'a', label: 'A', icon: 'a', pick: 'Tap A' },
       { id: 'b', label: 'B', icon: 'b', pick: 'Tap B' },
