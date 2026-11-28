@@ -93,3 +93,19 @@ export function commentBody({ verdict, summary, problems }, { model, round }) {
   const table = rows.length ? `\n\n| | Where | Note |\n|---|---|---|\n${rows.join('\n')}` : '';
   return `${MARKER}\n${head}\n\n${summary}${table}\n\n<sub>Model: ${model}. Reviewing against AGENTS.md from main.</sub>`;
 }
+
+/** Marker on Claude's review comments for Google-lane PRs (gemini/…, antigravity/…). */
+export const CLAUDE_REVIEW_MARKER = '<!-- claude-review -->';
+/** Branch prefixes whose PRs are written by Google agents and reviewed by Claude instead of Gemini. */
+export const GOOGLE_BRANCH = /^(gemini|antigravity)\//;
+
+/**
+ * Reads a Claude review comment: "Verdict: approve|changes" and "sha: <40 hex>" (the commit it reviewed).
+ * Returns null unless both are present, so an unclear comment never approves anything.
+ */
+export function parseClaudeReview(body = '') {
+  if (!body.includes(CLAUDE_REVIEW_MARKER)) return null;
+  const verdict = body.match(/^\s*verdict:\s*(approve|changes)\b/im)?.[1]?.toLowerCase();
+  const sha = body.match(/^\s*sha:\s*([0-9a-f]{40})\b/im)?.[1];
+  return verdict && sha ? { verdict, sha } : null;
+}

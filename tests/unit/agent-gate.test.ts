@@ -1,6 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { decide, isGateFile } from '../../scripts/agent/decide.mjs';
-import { buildPrompt, commentBody, MAX_DIFF, parseVerdict, pickModel, pickModels, retryable } from '../../scripts/agent/review.mjs';
+import {
+  buildPrompt,
+  CLAUDE_REVIEW_MARKER,
+  commentBody,
+  GOOGLE_BRANCH,
+  MAX_DIFF,
+  parseClaudeReview,
+  parseVerdict,
+  pickModel,
+  pickModels,
+  retryable,
+} from '../../scripts/agent/review.mjs';
 
 const base = { files: ['src/lib/dom.ts'], labels: [] as string[], author: 'kumaranm10', agentReview: 'success' as const };
 
@@ -88,5 +99,25 @@ describe('review helpers', () => {
     expect(c).toContain('round 2 of 3');
     expect(c).toContain('`a.ts:3`');
     expect(c).toContain('x \\| y');
+  });
+});
+
+describe('Claude review of Google-lane PRs', () => {
+  const sha = 'a'.repeat(40);
+  it('reads a clear verdict and the reviewed commit', () => {
+    expect(parseClaudeReview(`${CLAUDE_REVIEW_MARKER}\n**Claude review**\nVerdict: approve\nsha: ${sha}`)).toEqual({ verdict: 'approve', sha });
+    expect(parseClaudeReview(`${CLAUDE_REVIEW_MARKER}\nverdict: Changes\nSHA: ${sha}\n- coin fact`)?.verdict).toBe('changes');
+  });
+  it('never approves an unclear comment', () => {
+    expect(parseClaudeReview(`Verdict: approve\nsha: ${sha}`)).toBeNull();
+    expect(parseClaudeReview(`${CLAUDE_REVIEW_MARKER}\nVerdict: approve`)).toBeNull();
+    expect(parseClaudeReview(`${CLAUDE_REVIEW_MARKER}\nsha: ${sha}\nlooks good`)).toBeNull();
+    expect(parseClaudeReview(`${CLAUDE_REVIEW_MARKER}\nI would not say Verdict: approve\nsha: ${sha}`)).toBeNull();
+    expect(parseClaudeReview(`${CLAUDE_REVIEW_MARKER}\nVerdict: approve\nsha: abc123`)).toBeNull();
+  });
+  it('knows which branches belong to Google agents', () => {
+    expect(GOOGLE_BRANCH.test('gemini/18-float-or-sink')).toBe(true);
+    expect(GOOGLE_BRANCH.test('antigravity/5-x')).toBe(true);
+    expect(GOOGLE_BRANCH.test('claude/14-home')).toBe(false);
   });
 });
